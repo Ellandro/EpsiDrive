@@ -1,3 +1,137 @@
-body{
-    background-color:red;
+@import url('https://fonts.googleapis.com/css2?family=Autour+One&family=Poppins:ital,wght@0,100;0,200;0,500;1,200&display=swap');
+
+
+@import url('https://fonts.googleapis.com/css2?family=Autour+One&family=Poppins:ital,wght@0,100;0,200;0,500;1,200&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;  
 }
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+/* ############################ Header #######################################*/
+header{
+    display: flex;
+    justify-content: space-around;
+  
+    align-items: center;
+    height: 20vh;
+    font-family: "Autour One";
+}
+/* ################################# logo ############################### */
+header div img{
+    max-width: 40%;
+    border-radius: 50%;
+}
+/* ######################## navbar ######################################## */
+header .menu ul{
+    display: flex;
+    gap: 20px;
+}
+header .menu ul a{
+    color: black;
+}
+header a button{
+    background-color: #08D48E;
+    width: 100px;
+    height: 50px;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    margin-right: 75px;
+    cursor:pointer;
+}
+/* ############### footer ################## */
+footer{
+    height: 120vh;
+    background-color: #302525;
+}
+footer hr{
+    border: 3px solid #08D48E;
+    width:90% ;
+    margin-left: 5%;
+    border-radius:15px;
+
+}
+footer section{
+    height: 45%;
+   
+    /* justify-content: space-around;' */
+    
+}
+footer .top{
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+footer .top div{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+footer h6{
+    font-size: 0.9rem;
+}
+footer p,  footer h6{
+    margin: 5% 0% 10% 17%;
+}
+footer a{
+    text-decoration: underline;
+}
+footer h1, footer p, footer h6 , footer a{
+    color: #fff;
+}
+footer p, footer h6, footer a{
+    font-family:  "Autour One";
+}
+footer .top img{
+    width: 30px;
+    margin-right: 20px;
+}
+footer h1{
+    font-family: "poppins";
+}
+footer .down{
+    padding-top:30px ;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+.down .first{
+    /* border: 1px solid beige; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.down .first .img_first{
+    /* background-color: #08D48E; */
+    height: 100px;
+    max-width: 200px;
+    margin-top: -70px;
+
+}
+.down .first .emoji{
+    display: flex;
+    gap: 25px;
+}
+.down .first .emoji img{
+    width: 25px;
+}
+
+/* ################################ sidebar user ################" */
+/* Google Font Import - Poppins */
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'); */
+/* *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+} */
+
