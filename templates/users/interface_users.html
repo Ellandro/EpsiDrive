@@ -1,0 +1,190 @@
+{% extends './base.html' %} {% block content %}
+
+<section class="contener-user-interface">
+  <!-- LA PREMIERE PARTIE AVEC LA VOITIRE ET LA CATEGORIE DE PERMIS -->
+  <div class="categorie-titre">
+    <div class=><i class="fa fa-car"></i></div>
+    <div>
+      <h4>Catégorie A</h4>
+    </div>
+  </div>
+
+ <!-- LA DEUXIEME PARTIE AVEC LES TITRES DES MODULES -->
+  <div class="wrapper">
+      <i id="left" class="fa-solid fa-angle-left"></i>
+      <ul class="carousel">
+        <li class="card module1">
+          <div class="img"><img src="../static/images/img-1.png" alt="img" draggable="false"></div>
+          <h2>Module1: La Circulation en ville</h2>
+          <div
+            class="progress"
+            role="progressbar"
+            aria-label="Success example"
+            aria-valuenow="25"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress-bar bg-success" style="width: 10%">10%</div>
+          </div>
+        </li>
+        <li class="card module2">
+          <div class="img"><img src="../static/images/img-2.png" alt="img" draggable="false"></div>
+          <h2>Module2: La circulation rurale</h2>
+          <div
+            class="progress"
+            role="progressbar"
+            aria-label="Success example"
+            aria-valuenow="25"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress-bar bg-success" style="width: 100%">100%</div>
+          </div>
+        </li>
+        <li class="card module3">
+          <div class="img"><img src="../static/images/img-3.png" alt="img" draggable="false"></div>
+          <h2>Module3: Le test de Permis de conduire</h2>
+          <div
+            class="progress"
+            role="progressbar"
+            aria-label="Success example"
+            aria-valuenow="25"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress-bar bg-success" style="width: 40%">40%</div>
+          </div>
+        </li>
+        <li class="card module1">
+          <div class="img"><img src="../static/images/img-1.png" alt="img" draggable="false"></div>
+          <h2>Module 4: Les codes</h2>
+          <div
+            class="progress"
+            role="progressbar"
+            aria-label="Success example"
+            aria-valuenow="25"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress-bar bg-success" style="width: 50%">50%</div>
+          </div>
+        </li>
+        <li class="card module2">
+          <div class="img"><img src="../static/images/img-2.png" alt="img" draggable="false"></div>
+          <h2>Module 5: L'autoroute</h2>
+          <div
+            class="progress"
+            role="progressbar"
+            aria-label="Success example"
+            aria-valuenow="25"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress-bar bg-success" style="width: 60%">60%</div>
+          </div>
+        </li>
+        <li class="card module3">
+          <div class="img"><img src="../static/images/img-3.png" alt="img" draggable="false"></div>
+          <h2>Module6: Les Signalisations</h2>
+          <div
+            class="progress"
+            role="progressbar"
+            aria-label="Success example"
+            aria-valuenow="25"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress-bar bg-success" style="width: 35%">35%</div>
+          </div>
+        </li>
+        <li class="card module1">
+          <div class="img"><img src="../static/images/img-1.png" alt="img" draggable="false"></div>
+          <h2>Module7: Les Directions</h2>
+          <div
+            class="progress"
+            role="progressbar"
+            aria-label="Success example"
+            aria-valuenow="25"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress-bar bg-success" style="width: 40%">40%</div>
+          </div>
+        </li>
+        <li class="card module2">
+          <div class="img"><img src="../static/images/img-2.png" alt="img" draggable="false"></div>
+          <h2>Module8: Les Intersecptions</h2>
+          <div
+            class="progress"
+            role="progressbar"
+            aria-label="Success example"
+            aria-valuenow="25"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress-bar bg-success" style="width: 40%">40%</div>
+          </div>
+        </li>
+        <li class="card module3">
+          <div class="img"><img src="../static/images/img-3.png" alt="img" draggable="false"></div>
+          <h2>Module9: Les Interdictions</h2>
+          <div
+            class="progress"
+            role="progressbar"
+            aria-label="Success example"
+            aria-valuenow="25"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress-bar bg-success" style="width: 40%">40%</div>
+          </div>
+        </li>
+      </ul>
+      <i id="right" class="fa-solid fa-angle-right"></i>
+    </div>
+
+    <!-- LA TROISIEME PARTIE DE L'INTERFACE UTILISATEUR AVEC L'HISTORIQUE DES ACTIVITES RECENTES -->
+  <div class="activite-recente">
+    <div class="activite-info">
+      <div class="design-gris">
+        <h6>Activités Récentes</h6>
+        <div class="design-rose">
+          <div class="align-gauche"><p>Date d'expiration de l'abonnement</p></div>
+          <div class="aling-centre"><p><span>19 Décembre 2023</span></p></div>
+          <div class="align-gauche">Notifications</div>
+          <div class="aling-centre">
+            <div><i class="fa fa-calendar"></i></div>
+            <div><p>Votre rendez-vous est prévu pour le 08 Janvier 2023</p></div>
+          </div>
+          <div class="aling-centre">
+            <div><i class="fa fa-warning"></i></div>
+            <div><p>N'oubliez pas de continuer/terminer votre cours du jour!</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="activite-pourcentage">
+      <div class="progress-circle" data-percent="50"></div>
+       <!-- <div class="circular">
+            <div class="inner"></div>
+            <div class="outer"></div>
+            <div class="numb">
+               10%
+            </div>
+            <div class="circle">
+               <div class="dot">
+                  <span></span>
+               </div>
+               <div class="bar left">
+                  <div class="progress"></div>
+               </div>
+               <div class="bar right">
+                  <div class="progress"></div>
+               </div>
+            </div>
+         </div> -->
+    </div>
+  </div>
+</section>
+
+{% endblock %}

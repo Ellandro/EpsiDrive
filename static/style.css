@@ -1,3 +1,373 @@
 body{
-    background-color:red;
+    background-color:white;
+}
+
+/* STYLE DE LA PARTIE USERS INTERFACE */
+.contener-user-interface{
+    background-color: white;
+    width: 70%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+   
+}
+
+/* Partie avec l'icone de voiture et la catégorie de permis */
+.categorie-titre{
+    width: 20%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    color: black;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* LA PARTIE DE L'INTERFACE UTILISATEUR Où IL Y A LE TITRE DES MODULE ET LEURS IMAGES */
+.wrapper {
+    max-width: 1100px;
+    width: 100%;
+    position: relative;
+}
+
+.wrapper i {
+    top: 50%;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    font-size: 1.25rem;
+    position: absolute;
+    text-align: center;
+    line-height: 50px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.23);
+    transform: translateY(-50%);
+    transition: transform 0.1s linear;
+}
+
+.wrapper i:active {
+    transform: translateY(-50%) scale(0.85);
+}
+
+.wrapper i:first-child {
+    left: -22px;
+}
+
+.wrapper i:last-child {
+    right: -22px;
+}
+
+.wrapper .carousel {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% / 3) - 12px);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+    border-radius: 8px;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel.no-transition {
+    scroll-behavior: auto;
+}
+
+.carousel.dragging {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+}
+
+.carousel.dragging .card {
+    cursor: grab;
+    user-select: none;
+}
+
+.carousel :where(.card, .img) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel .card {
+    scroll-snap-align: start;
+    height: 342px;
+    list-style: none;
+    cursor: pointer;
+    padding-bottom: 15px;
+    flex-direction: column;
+    border-radius: 8px;
+}
+
+.carousel .card .img {
+    height: 148px;
+    width: 148px;
+    border-radius: 50%;
+}
+
+.card .img img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid green;
+}
+
+.carousel .card h2 {
+    font-weight: 500;
+    font-size: 1.56rem;
+    margin: 30px 0 5px;
+}
+
+.carousel .card span {
+    color: #6A6D78;
+    font-size: 1.31rem;
+}
+ .module1 {
+    background-color: #77B7F2;
+}  
+.module2 {
+    background-color: rgb(219, 201, 168);
+}
+.module3 {
+    background-color: rgb(156, 231, 156);
+}  
+.progress {
+    width: 100%;
+    border-radius: 10px;
+}
+@media screen and (max-width: 900px) {
+    .wrapper .carousel {
+        grid-auto-columns: calc((100% / 2) - 9px);
+    }
+}
+@media screen and (max-width: 600px) {
+    .wrapper .carousel {
+        grid-auto-columns: 100%;
+    }
+}
+
+
+/* Style de l'affichage de l'historique des activités récentes de l'utilisateur */
+.activite-recente{
+    width: 100%;
+    height: 45%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.activite-info{
+    width: 55%;
+    height: 100%;
+    display: flex;
+}
+
+.design-gris{
+    width: 90%;
+    height: 100%;
+    background-color: rgb(242, 231, 231);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.design-rose{
+    width: 100%;
+    height: 97%;
+    background-color: rgb(230, 208, 211); 
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 100% 0 0;
+}
+.aling-centre{
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 15px;
+    
+}
+
+.aling-centre p span {
+    color: blue;
+}
+
+
+/* Affichage de la progression de l'utilisateur dans l'interface Users */
+.activite-pourcentage{
+    width: 40%;
+    height: 100%;
+    display: flex;
+}
+
+
+/* .circular {
+    height: 70%;
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.circular .inner,
+.circular .outer,
+.circular .circle {
+    position: absolute;
+    z-index: 6;
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+    box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.circular .inner {
+    top: 50%;
+    left: 50%;
+    height: 80px;
+    width: 80px;
+    margin: -40px 0 0 -40px;
+    background-color: #dde6f0;
+    border-radius: 100%;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.circular .circle {
+    z-index: 1;
+    box-shadow: none;
+}
+
+.circular .numb {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    font-size: 18px;
+    font-weight: 500;
+    color: #4158d0;
+}
+
+.circular .bar {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: #fff;
+    clip: rect(0px, 100px, 100px, 50px);
+}
+
+.circle .bar .progress {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+   
+    clip: rect(0px, 50px, 100px, 0px);
+}
+
+.circle .bar .progress,
+.dot span {
+    background: #4158d0;
+}
+
+.circle .left .progress {
+    z-index: 1;
+    animation: left 4s linear both;
+}
+
+@keyframes left {
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+.circle .right {
+    z-index: 3;
+    transform: rotate(180deg);
+}
+
+.circle .right .progress {
+    animation: right 4s linear both;
+    animation-delay: 4s;
+}
+
+@keyframes right {
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+.circle .dot {
+    z-index: 2;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 50%;
+    height: 10px;
+    margin-top: -5px;
+    animation: dot 8s linear both;
+    transform-origin: 0% 50%;
+}
+
+.circle .dot span {
+    position: absolute;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+}
+
+@keyframes dot {
+    0% {
+        transform: rotate(-90deg);
+    }
+
+    50% {
+        transform: rotate(90deg);
+        z-index: 4;
+    }
+
+    100% {
+        transform: rotate(270deg);
+        z-index: 4;
+    }
+} */
+
+.progress-circle {
+    width: 200px;
+    height: 200px;
+    background-color: #eee;
+    border-radius: 50%;
+    position: relative;
+}
+
+.progress-circle::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    background-color: #3498db;
+    /* Couleur de fond de la partie complétée */
+    transform-origin: 0 50%;
+    transform: rotate(calc(360 * var(--percent) / 100));
+    transition: transform 0.8s ease;
+}
+
+.progress-circle::after {
+    content: attr(data-percent) "%";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
 }
