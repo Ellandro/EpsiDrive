@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static',filename='dashboard.css')}}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='./Images/logo.png')}}">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>EpsiDrive</title>
+</head>
+<body>
+{% include './dashbord/menu_admin.html' %}
+{% include './dashbord/sidebar.html' %}
+
+
+{% block content %}
+{% endblock %}
+<script src="../static/javascript/script.js"></script>
+</body>
+</html>
