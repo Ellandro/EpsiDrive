@@ -370,12 +370,18 @@ body.dark .switch::before{
     width: calc(100% - 250px);
     background-color: var(--body-color);
     transition: var(--tran-05);
+    margin-left: 5%;
+    margin-top: 10%;
+    overflow-y: visible;
+    /* overflow-x: hidden; */
+
 }
 .home .text{
     font-size: 30px;
     font-weight: 500;
     color: var(--text-color);
     padding: 12px 60px;
+    
 }
 
 .sidebar.close ~ .home{
