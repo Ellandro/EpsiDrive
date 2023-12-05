@@ -1,10 +1,21 @@
 from flask import Flask, render_template, redirect, flash, url_for
-
-
+import pymysql
 app = Flask(__name__)
+# ? Les informations pour la connexion à ma db
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'epsidrive'
+
+
 
 @app.route("/")
 def hello_world():
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'] ,
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
     return render_template("index.html")
 
 @app.route("/menu/")
