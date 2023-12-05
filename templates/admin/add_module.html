@@ -1,0 +1,24 @@
+{% extends "./dashbord/base.html" %}
+{% block content %}
+<section class="Formulaire home">
+            <form action="">
+                <div class="Ajout_module">
+                    <a href="#"><h1>Ajouter Module</h1></a>
+                </div>
+
+                <div class="nom_module">
+                    <h3>Nom module :</h3> <input type="text" placeholder="" class="module" id="">
+                </div>
+
+                <div class="module_photo">
+                     <h3>Photo :</h3> <input type="file" placeholder="" class="photo" id="">
+                </div>
+
+                <div class="module_button">
+                    <button type="submit" class="annuler"><a href="">Annuler</a> </button>
+                    <button type="submit" class="valider"><a href="">Valider</a></button>
+                </div>
+
+            </form>
+    </section>
+ {% endblock %}

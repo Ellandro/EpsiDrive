@@ -4,13 +4,13 @@
     </div>
     <div class="menu">
         <ul>
-            <li><a href="#">Code de la route</a></li>
-            <li><a href="#">permis de conduire</a></li>
+            <li><a href="{{ url_for('mode_paiement')}}">Code de la route</a></li>
+            <li><a href="{{ url_for('category')}}">permis de conduire</a></li>
             <li><a href="#">Contacts</a></li>
         </ul>
     </div>
     <div>
-        <a href="#"> <button>Connexion</button></a>
+        <a href="{{url_for('login')}}"> <button>Connexion</button></a>
     </div>
 
 </header>

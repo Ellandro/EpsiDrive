@@ -1,0 +1,36 @@
+{% extends "./admin/main.html" %}
+{% block content %}
+
+<section class="home white">
+    <h1>TEST 1</h1>
+    <div class="direction">
+        <div class="dir">
+            <i class="fa-solid fa-chevron-right fa-rotate-180" style="color: #08d48e;"></i>
+            <i class="fa-solid fa-chevron-right" style="color: #08d48e;"></i>
+        </div>
+        <i class="fa-solid fa-bars" style="color: #08d48e;"></i>
+    </div>
+<form class="test">
+
+    <div class="query">
+        <h3>Un enfant peut être masqué par des véhicules en stationnement :</h3>
+       <div>
+            <input type="radio" name="one" id="one">
+            <label for="one">OUI</label><br>
+       </div>
+        <div>
+            <input type="radio" name="one" id="two">
+        <label for="two">NON</label>
+        </div>
+    </div>
+    <div class="image_query">
+        <img src="{{ url_for('static', filename='./Images/risque.jpg')}}" alt="photo" srcset="">
+    </div>
+    <div class="btn">
+        <button class="danger"><a href="">Annuler</a></button>
+        <button type="submit" class="sucess">Valider</button>
+    </div>
+</form>
+</section>
+
+{% endblock content %}

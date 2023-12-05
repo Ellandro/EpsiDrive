@@ -24,3 +24,12 @@ if(body.classList.contains("dark")){
   
 }
 });
+
+// ###################### profil utilisateur ####################################
+function menuToggle(){
+  const toggleMenu = document.querySelector('.menu');
+  toggleMenu.classList.toggle('active')
+}
+
+
+// ########################### upload file user #########################################

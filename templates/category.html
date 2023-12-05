@@ -1,0 +1,104 @@
+{% extends './base.html' %}
+{% block content %}
+<div class="wrapper">
+    <div class="table basic">
+      <div class="price-section">
+        <div class="price-area">
+          <div class="inner-area">
+
+            <span class="price">24000 Fcfa</span><span class="text">/Mois</span>
+          </div>
+        </div>
+      </div>
+      <div class="package-name"></div>
+      <ul class="features">
+        <li>
+          <i class="fa-solid fa-check" style="color: #08d48e;"></i>
+          <span class="list-name">Moto</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-xmark" style="color: #f00a43;"></i>
+          <span class="list-name">Voiture Presonnelle</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-xmark" style="color: #f00a43;"></i>
+          <span class="list-name">Transport Commun</span>
+
+        </li>
+        <li>
+          <i class="fa-solid fa-xmark" style="color: #f00a43;"></i>
+          <span class="list-name">Gros Camion</span>
+
+        </li>
+      </ul>
+      <div class="btn"><button><a href="{{ url_for('mode_paiement')}}">Je Decouvre</a></button></div>
+    </div>
+    <div class="table premium">
+
+      <div class="price-section">
+        <div class="price-area">
+          <div class="inner-area">
+            <span class="text">/Mois</span>
+            <span class="price">50000 Fcfa</span>
+          </div>
+        </div>
+      </div>
+      <div class="package-name"></div>
+     <ul class="features">
+        <li>
+          <i class="fa-solid fa-check" style="color: #08d48e;"></i>
+          <span class="list-name">Moto</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-check" style="color: #08d48e;"></i>
+          <span class="list-name">Voiture Presonnelle</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-xmark" style="color: #f00a43;"></i>
+          <span class="list-name">Transport Commun</span>
+
+        </li>
+        <li>
+          <i class="fa-solid fa-xmark" style="color: #f00a43;"></i>
+          <span class="list-name">Gros Camion</span>
+
+        </li>
+      </ul>
+      <div class="btn"><button><a href="{{ url_for('mode_paiement')}}">Je Decouvre</a></button></div>
+    </div>
+
+    <div class="table ultimate">
+       <div class="ribbon"><span>Recommandé</span></div>
+      <div class="price-section">
+        <div class="price-area">
+          <div class="inner-area">
+            <span class="text">/Mois</span>
+            <span class="price">90000 Fcfa</span>
+          </div>
+        </div>
+      </div>
+      <div class="package-name"></div>
+      <ul class="features">
+        <li>
+          <i class="fa-solid fa-check" style="color: #08d48e;"></i>
+          <span class="list-name">Moto</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-check" style="color: #08d48e;"></i>
+          <span class="list-name">Voiture Presonnelle</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-check" style="color: #08d48e;"></i>
+          <span class="list-name">Transport Commun</span>
+
+        </li>
+        <li>
+          <i class="fa-solid fa-check" style="color: #08d48e;"></i>
+          <span class="list-name">Gros Camion</span>
+
+        </li>
+      </ul>
+      <div class="btn"><button><a href="{{ url_for('mode_paiement')}}">Je Decouvre</a></button></div>
+    </div>
+  </div>
+ {% endblock %}

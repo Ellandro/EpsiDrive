@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/register.css">
+    <title>Document</title>
+</head>
+<body>
+    
+    <section class="grand_main">
+        <section class="petit_main">
+            <div class="gauche">
+                <div class="gauche_text">
+                    <h1>Faisons connaissance pour<center>découvrir vos formations<center>personnalisées !</h1>
+                </div>
+                <div class="gauche_image">
+                       <img src="../static/Images/undraw_my_app_re_gxtj-removebg-preview.png" alt="" width="115%" height="115%s">
+                </div>
+
+            </div>
+            <div class="droit">
+                <div class="logo">
+                    <img src="../static/Images/logo.png" alt="" width=260% height=260%>
+                </div>
+                <div class="connexion">
+                 <div class="google"><img src="../static/Images/chercher.png" alt="google"><a href="#"> Connexion Google</a></div>
+                 <div class="facebook"><img src="../static/Images/facebook.png" alt="facebook"><a href="#">Connexion Facebook</a></div>
+                </div>
+                <div><h4>-OU-</h4></div>
+                 <form action="">
+                    <label for="prenom">Prenom</label>
+                    <input type="text" placeholder="" class="prenom" id="prenom">
+
+                    <label for="nom">Nom</label>
+                    <input type="text" placeholder="" class="nom" id="nom">
+
+                    <label for="">Date de Naissance</label>
+                    <div class="date_naissance">
+                 
+                    <input type="text" placeholder="JJ" class="Jour" id="Jour">
+                    <input type="text" placeholder="MM" class="Mois" id="Mois">
+                    <input type="text" placeholder="AAAA" class="Année" id="Année">
+                    </div>
+                    <label for="telephone">Telephone</label>
+                    <input type="text" placeholder="" class="telephone" id="telephone">
+
+                    <label for="email">Email</label>
+                    <input type="text" placeholder="" class="email" id="email">
+
+                    <button type="submit">Créer votre compte </button>
+
+                    <div class="conncter">Déjà un compte ?<a href="{{url_for('login')}}">Je me connecte</a></div>
+
+                 </form>
+                   
+                
+                
+            </div>
+
+        </section>
+
+    </section>
+
+
+</body>
+</html>

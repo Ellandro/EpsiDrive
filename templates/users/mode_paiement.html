@@ -1,0 +1,59 @@
+{% extends './base.html' %} {% block content %}
+<section class="paiement_contener">
+  <div class="paiement">
+    <div class="type_paiement_contener">
+      <div><h4>Simple, Transparent rricing</h4></div>
+      <div class="type_paiement">
+        <div class="choix_type_paiement">
+          <div><i class="fa fa-money transfer"></i></div>
+          <div><p>Moblile Money</p></div>
+        </div>
+        <div class="choix_type_paiement">
+          <div><i class="fa fa-money transfer"></i></div>
+          <div>Carte Bancaire</div>
+        </div>
+      </div>
+    </div>
+    <div class="mode_paiement">
+      <div><p>Mode de paiement</p></div>
+      <div class="mode_paiement_img">
+        <div class="mode_paiement_img1"></div>
+        <div class="mode_paiement_img2"></div>
+        <div class="mode_paiement_img3"></div>
+      </div>
+    </div>
+    <div class="numero_paiement">
+      <form action="">
+        <label for="numero">Entrez votre Numero de téléphone</label> <br />
+        <input id="numero"
+          type="tel"
+          placeholder="Ex:0723657854"
+          name="numero_de_paiement"
+          required
+        />
+      </form>
+    </div>
+    <div class="confirmer_paiement">
+      <div class="confirmer_paiement_avertis">
+        <p>
+          Cher client, avant de continuer le processus de paiment , nous vous
+          invitons à verifier que vous disposez bien du montant de la
+          transaction sur votre compte Mobile money ou votre Compte Bancaire .
+        </p>
+      </div>
+      <form action="/user" class="paiement_fond">
+         <div class="confirmer_paiement_fond">
+           <input type="checkbox" name="case_a_cocher" id="declaration">
+           <label for="declaration">Je dispose des fonds neccessaires pour continuer cette operation</label>
+         </div>
+         <div class="confirmer_annuler">
+           <button type="">Annuler</button>
+           <button type="submit">Payer</button>
+               
+         </div>
+      </form>
+  </div>
+  </div>
+</section>
+
+{% endblock %}

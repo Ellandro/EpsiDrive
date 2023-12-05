@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/register.css">
+    <title>Document</title>
+</head>
+<body>
+    
+    <section class="second_main">
+
+        <section class="second_petit">
+
+            <section class="Centre">
+                <div class="logo_drive">
+                    <img src="../static/Images/logo.png" alt="" width=260% height=260%>
+                </div>
+                <div class="Se_connecter">
+                    <div class="Google"><img src="../static/Images/chercher.png" alt="google"><a href="#">Connexion Google</a></div>
+                    <div class="Facebook"><img src="../static/Images/facebook.png" alt="facebook"><a href="#">Connexion Facebook</a></div>
+                </div>
+                   <div><h4>-OU-</h4></div>
+
+                <form action="">
+                    <label for="adresse">Adresse email</label>
+                    <input type="text" placeholder="" class="adresse" id="adresse">
+
+                    <label for="mot_passe">Mot de passe</label>
+                    <input type="text" placeholder="" class="mot_passe" id="mot_passe">
+
+                    <div class="souvenir">
+                        <input type="checkbox" placeholder="" class="#" id="#">Se souvenir de moi
+                    </div>
+
+                    <div class="Texte">
+                        <p>
+                        Vos données personnelles sont traitées par Epsidrive à des fins de gestion de votre compte
+                        personnel. Pour en savoir sur vos données et vos droit, consultez notre </p>
+                        <a href="#">Politique de confidentialité.</a>
+                    </div>
+                    <button type="submit">Je me connecte</button>
+
+                    <div class="mot_passe_oublier"><a href="#"><h1>J'ai oublié mon mot de passe</h1></a></div>
+                    
+                    <div class="pas_de_compte">Pas encore de compte ?<a href="{{url_for('register')}}">Je m'inscris</a></div>
+
+                </form>
+            </section>
+
+        </section>
+
+    </section>
+</body>
+</html>
