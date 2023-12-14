@@ -339,9 +339,48 @@ def view_module():
     print(module)
     return render_template('./admin/view_module.html' ,module=module)
 
-@app.route("/add_module/")
+@app.route("/add_module/" ,methods=["POST","GET"])
 def add_module():
-    return render_template('./admin/add_module.html')
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM categoriespermis")
+    cat = cursor.fetchall()
+    if request.method == 'POST':
+        IDModule = request.form.get('IDModule')
+        NomModule = request.form.get('NomModule')
+        categorie = request.form.getlist("Categorie[]")
+
+        print(categorie)
+
+        # Traitement de l'image
+        image = request.files['image']
+
+        if image:
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        else:
+            filename = None
+
+        cursor.execute("SELECT * FROM  modulesenseignes WHERE   NomModule= %s", (NomModule,))
+        existing_module = cursor.fetchone()
+        if (existing_module):
+            flash(f"Le module '{NomModule}' existe déjà.", 'warning')
+        else:
+            insert_query = "INSERT INTO modulesenseignes VALUES (%s, %s, %s)"
+            cursor.execute(insert_query, (None, NomModule, filename))
+            cursor.connection.commit()
+            cursor.execute("SELECT * FROM  modulesenseignes WHERE   NomModule= %s", (NomModule,))
+            id_module = cursor.fetchone()[0]
+            print(id_module)
+
+            for element in categorie:
+                cursor.execute("INSERT INTO modulecategorie value(%s, %s)", (id_module, element))
+                cursor.connection.commit()
+            flash(f"Le module: {IDModule}: {NomModule} a été ajouté avec succès", 'success')
+    return render_template('./admin/add_module.html', title="add_module", categorie=cat)
 
 @app.route("/add_cours/",methods=["POST", "GET"])
 def add_cours():

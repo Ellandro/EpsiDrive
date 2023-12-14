@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 14 déc. 2023 à 10:02
+-- Généré le : jeu. 14 déc. 2023 à 17:29
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -70,7 +70,16 @@ CREATE TABLE IF NOT EXISTS `categoriespermis` (
   `image` varchar(100) NOT NULL,
   PRIMARY KEY (`IDCategorie`),
   UNIQUE KEY `NomCategorie` (`NomCategorie`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `categoriespermis`
+--
+
+INSERT INTO `categoriespermis` (`IDCategorie`, `NomCategorie`, `Montant`, `descriptions`, `image`) VALUES
+(1, 'Catégorie A ', 90000, 'Il concerne les motocyclettes et scooters. Cette catégorie peut être subdivisée en sous-catégories en fonction de la puissance du véhicule.', ''),
+(2, 'catégorie B', 120000, 'Il autorise la conduite de voitures particulières et de certains véhicules utilitaires légers. C\'est le permis de conduire le plus courant.', ''),
+(3, ' catégorie ABDE', 180000, 'Il concerne la conduite de véhicules lourds tels que les camions. Il peut également être subdivisé en fonction du type et de la taille du véhicule.', '');
 
 -- --------------------------------------------------------
 
@@ -160,7 +169,20 @@ CREATE TABLE IF NOT EXISTS `modulecategorie` (
   `IDCategorie` int NOT NULL,
   PRIMARY KEY (`IDModule`,`IDCategorie`),
   KEY `IDCategorie` (`IDCategorie`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `modulecategorie`
+--
+
+INSERT INTO `modulecategorie` (`IDModule`, `IDCategorie`) VALUES
+(2, 1),
+(2, 2),
+(2, 3),
+(3, 2),
+(3, 3),
+(4, 1),
+(4, 2);
 
 -- --------------------------------------------------------
 
@@ -175,14 +197,17 @@ CREATE TABLE IF NOT EXISTS `modulesenseignes` (
   `image` varchar(100) NOT NULL,
   PRIMARY KEY (`IDModule`),
   UNIQUE KEY `NomModule` (`NomModule`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `modulesenseignes`
 --
 
 INSERT INTO `modulesenseignes` (`IDModule`, `NomModule`, `image`) VALUES
-(1, 'Module 1 :Code de la route', '');
+(1, 'Module 1 :Code de la route', ''),
+(2, 'Code de la route', 'Capture_decran_2023-11-27_092726.png'),
+(3, 'Manœuvres spéciales', 'Capture_decran_2023-11-29_210651.png'),
+(4, 'Épreuve pratique', 'Capture_decran_2023-12-07_092743.png');
 
 -- --------------------------------------------------------
 
