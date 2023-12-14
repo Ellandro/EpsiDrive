@@ -1,24 +1,75 @@
 {% extends "./dashbord/base.html" %}
 {% block content %}
 <section class="Formulaire home">
-            <form action="">
-                <div class="Ajout_module">
-                    <a href="#"><h1>Ajouter Module</h1></a>
-                </div>
 
-                <div class="nom_module">
-                    <h3>Nom module :</h3> <input type="text" placeholder="" class="module" id="">
-                </div>
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+    </div>
 
-                <div class="module_photo">
-                     <h3>Photo :</h3> <input type="file" placeholder="" class="photo" id="">
-                </div>
+    <form method="POST" class="form" action="{{url_for('add_module')}}" enctype="multipart/form-data">
+        <div class="Ajout_module">
+            <a href="#"><h1>Ajouter Module</h1></a>
+        </div>
+        <div class="nom_module">
+            <h3>Nom module :</h3> <input type="text" placeholder="" class="module" name="NomModule" required>
+        </div>
 
-                <div class="module_button">
-                    <button type="submit" class="annuler"><a href="">Annuler</a> </button>
-                    <button type="submit" class="valider"><a href="">Valider</a></button>
-                </div>
+        <div class="module_photo">
+            <h3>Photo: </h3>
+            <input type="file" name="image" accept="image/" required/>
+        </div>
 
-            </form>
-    </section>
- {% endblock %}
+        <div class="check_btn">
+            {% for row in categorie %}
+            <input type="checkbox" name="Categorie[]" id="Categorie{{loop.index}}" value="{{ row[0] }}" >
+            <label for="Categorie{{loop.index}}">{{ row[1] }}</label>
+            {% endfor %}
+        </div>
+
+        <div class="module_button">
+            <button type="submit" class="annuler"><a href="/view_module/">Annuler</a></button>
+            <button type="submit" class="valider">Valider</button>
+        </div>
+    </form>
+    <style>
+        input[type="checkbox"]{
+            width:20px;
+            height:20px;
+            margin-top:5px
+        }
+        label{
+            margin-right:75px;
+            font-size:1.2rem;
+        }
+        input[type="checkbox"]:checked {
+            background-color: #4CAF50; /* Nouvelle couleur de fond lorsqu'elle est cochée */
+        }
+        .check_btn{
+            position:relative;
+            left:10%;
+        }
+    </style>
+    <script>
+        // Attendre 5 secondes après le chargement de la page
+        window.onload = function() {
+            // Sélectionner tous les éléments avec la classe 'flash'
+            var flashElements = document.querySelectorAll('.flash');
+    
+            flashElements.forEach(function(flashElement) {
+                // Définir un délai de 5 secondes avant de masquer l'élément
+                setTimeout(function(){
+                    flashElement.style.display = 'none'; // ou flashElement.parentNode.removeChild(flashElement) pour le supprimer complètement
+                }, 5000); // 5000 millisecondes = 5 secondes
+            });
+        };
+    </script>
+</section>
+{% endblock %}
