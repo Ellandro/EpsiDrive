@@ -356,7 +356,7 @@ def add_cours():
         if(request.form["titre"]=="" or request.form["module"]=="" or request.form["contenu"]==""):
             flash("Les ne doivent pas etre vide")
         else:
-            titre = request.form["titre"]
+            titre   = request.form["titre"]
             modules = request.form["module"]
             contenu = request.form["contenu"]
             print([titre, modules,contenu])
@@ -367,6 +367,35 @@ def add_cours():
             print(cursor)
 
     return render_template('./admin/add_cours.html', module=module)
+
+@app.route("/modifier_add_cours/",methods=["POST", "GET"])
+def modifier_add_cours():
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
+    conn = pymysql.connect(connection)
+    cursor = conn.cursor()
+    cursor.execute("select * from modulesenseignes")
+    data = cursor.fetchall()
+    data = data[0]
+    if request.method == "POST":
+            titre   = request.form["titre"]
+            modules = request.form["module"]
+            contenu = request.form["contenu"]
+            print([titre, modules,contenu])
+            cursor.execute('''
+                    UPDATE modulesenseignes
+                    SET IDCours=?, IDModule=?,TitreCours=?,Contenu=?
+                    WHERE IDCours = ?''',(titre,modules,contenu,))
+
+            conn.commit()
+            conn.close()
+  
+            return render_template('./admin/add_cours.html')
+        
+
 @app.route("/view_cours/")
 def view_cours():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
