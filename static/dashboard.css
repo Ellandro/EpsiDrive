@@ -740,6 +740,7 @@ thead th.active,tbody td.active {
   margin-top: 20px;
 }
 .main-skills .card{
+   position:relative;
   width: 35%;
   margin: 10px;
   background: #fff;
@@ -770,7 +771,44 @@ thead th.active,tbody td.active {
   font-size: 22px;
   padding: 10px;
 }
+ .card {
+        cursor:pointer;
+        position: relative;
+        background: #fff; /* Ajoutez un fond blanc ou une couleur de fond par défaut */
+        transition: background 0.3s; /* Ajoutez une transition pour une animation en douceur */
+    }
 
+    .card:hover {
+        background: rgb(26, 43, 37);
+    }
+
+    .buttons-container {
+        position: absolute;
+        top: 40%;
+        left: 30%;
+        display: none;
+
+    }
+
+    .card:hover .buttons-container {
+        display: block;
+        display:flex;
+        align-items:center;
+    }
+
+    .buttons-container a {
+        display: block;
+
+        text-decoration: none;
+
+        width: 50px;
+        text-align: center;
+        border-radius: 5px;
+    }
+
+    .buttons-container a:hover {
+        background-color: #ddd;
+    }
 
 
 

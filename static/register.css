@@ -6,7 +6,7 @@
 .grand_main
 {
    width: 100%;
-   height: 600px;
+   height: 140vh;
    display: flex;
    align-items: center;
    justify-content: center;
@@ -15,7 +15,7 @@
 .petit_main
 {
     width: 70%;
-    height: 500px;
+    height: 80%;
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -25,7 +25,7 @@
 .gauche
 {
     width: 50%;
-    height: 500px;
+    height: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,7 +49,7 @@
 .droit
 {
     width: 60%;
-    height: 500px;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -232,7 +232,7 @@ form button
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #08D48E;
+   background-image: linear-gradient(to bottom, #6bd193, #70d597, #75d99b, #7add9f, #7fe1a3, #7ee5aa, #7de8b0, #7cecb7, #75f0c2, #6df4cd, #66f7d9, #5ffbe4);
 }
 .Centre
 {
@@ -482,4 +482,7 @@ form button
             display: flex;
          }
 
+    }
+    .flash{
+    color:red;
     }

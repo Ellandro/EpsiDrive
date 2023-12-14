@@ -1,83 +1,97 @@
 {% extends "./admin/main.html" %}
 {% block content %}
-<section class="container">
+   <section class="container1 home">
+          {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert-{{category}}" id="mes">{{message}}</div>
+                    {% endfor %}
+                    {% endif %}
+          {% endwith %}
         <header>Ajouter Questions</header>
-        <form action="#" class="form">
+        <form method="POST" class="form" action="{{url_for('add_question')}}" enctype="multipart/form-data">
           <div class="input-box1">
-            <label>Titre Question</label>
-            <input type="text" placeholder="Entrer votre question" required />
+            <label>Nom :</label>
+            <input type="text" name="nom_question" placeholder="Entrer votre question" required>
+          </div>
+          <div class="input-box1">
+              <label>Description</label>
+            <input type="text" name="Description" placeholder="Entrer votre description" required>
           </div>
           <div class="input-box1">
             <label>Choix 1</label>
-            <input type="text" placeholder="Entrer votre 1er choix" required />
+            <input type="text" name="Choix1" placeholder="Entrer votre 1er choix" required />
           </div>
           <div class="column">
             <div class="input-box1">
               <label>Choix 2</label>
-              <input type="text" placeholder="Entrer votre 2eme choix" required />
+              <input type="text" name="Choix2" placeholder="Entrer votre 2eme choix" required />
             </div>
           </div>
           <div class="column">
             <div class="input-box1">
               <label>Choix 3</label>
-              <input type="text" placeholder="Entrer votre 3eme choix" required />
+              <input type="text" name="Choix3" placeholder="Entrer votre 3eme choix" required />
             </div>
           </div>
           <div class="column">
             <div class="input-box1">
               <label>Choix 4</label>
-              <input type="text" placeholder="Entrer votre 4eme choix" required />
-            </div>
-          </div>
-          <div class="column">
-            <div class="input-box1">
-              <label>Reponse</label>
-              <input type="text" placeholder="Enter votre reponse" required />
+              <input type="text" name="Choix4" placeholder="Entrer votre 4eme choix" required />
             </div>
           </div>
           <div class="input-box1 address">
             <div class="column">
+              <label>Test</label>
               <div class="select-box">
-                <select>
-                  <option hidden>Test</option>
-                  <option>America</option>
-                  <option>Japan</option>
-                  <option>India</option>
-                  <option>Nepal</option>
+                <select name="test">
+                  {% for row in data_test %}
+                    <option value="{{row.0}}" selected>{{row.2}}</option>
+                  {% endfor %}
                 </select>
               </div>
             </div>
           </div>
+          <div class="column">
+            <div class="input-box1">
+              <label>Image</label>
+              <input type="file" name="image" accept="image/" required/>
+            </div>
+          </div>
+            <div class="column">
+            <div class="input-box1">
+              <label>reponse correcte</label>
+              <input type="text" name="reponse_correcte" placeholder="Entrer votre reponse correcte"  required />
+            </div>
+          </div>
           <div class="btn">
             <button class="red">Annuler</button>
-            <button>Ajouter</button>
+            <button type="submit" value="Soumettre" >Ajouter</button>
           </div>
         </form>
-    <style>
-        body {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background: #08D48E;
-}
-.container {
-  position: relative;
+     <style>
+  @import url('https://fonts.googleapis.com/css2?family=Autour+One&display=swap');
+</style>
+     <style>
+
+       .container1 {
+       font-family:"autour one";
+  height:auto !important;
   max-width: 700px;
   width: 100%;
   background: #fff;
   padding: 25px;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  margin-left:20%;
 }
-.container header {
+.container1 header {
   font-size: 1.5rem;
   color: #08D48E;
   font-weight: 500;
   text-align: center;
 }
-.container .form {
+.container1 .form {
   margin-top: 30px;
 }
 .form .input-box1 {
@@ -180,6 +194,7 @@
     row-gap: 15px;
   }
 }
-    </style>
+     </style>
       </section>
+
 {% endblock %}

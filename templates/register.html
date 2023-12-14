@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/register.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='./Images/logo.png')}}">
+
     <title>Document</title>
 </head>
 <body>
@@ -12,7 +14,7 @@
         <section class="petit_main">
             <div class="gauche">
                 <div class="gauche_text">
-                    <h1>Faisons connaissance pour<center>découvrir vos formations<center>personnalisées !</h1>
+                    <h1>Faisons connaissance pour<center>découvrir vos formations</center>personnalisées !</h1>
                 </div>
                 <div class="gauche_image">
                        <img src="../static/Images/undraw_my_app_re_gxtj-removebg-preview.png" alt="" width="115%" height="115%s">
@@ -20,33 +22,44 @@
 
             </div>
             <div class="droit">
+
                 <div class="logo">
                     <img src="../static/Images/logo.png" alt="" width=260% height=260%>
                 </div>
+                {% for message in get_flashed_messages() %}
+                         <div class="alert alert-{{ message.category }} flash">
+                 {{ message }}
+                 </div>
+                {% endfor %}
                 <div class="connexion">
                  <div class="google"><img src="../static/Images/chercher.png" alt="google"><a href="#"> Connexion Google</a></div>
                  <div class="facebook"><img src="../static/Images/facebook.png" alt="facebook"><a href="#">Connexion Facebook</a></div>
                 </div>
                 <div><h4>-OU-</h4></div>
-                 <form action="">
+                 <form action="{{url_for('register')}}" method="POST">
                     <label for="prenom">Prenom</label>
-                    <input type="text" placeholder="" class="prenom" id="prenom">
+                    <input type="text" placeholder="" class="prenom" id="prenom" name="prenom">
 
                     <label for="nom">Nom</label>
-                    <input type="text" placeholder="" class="nom" id="nom">
+                    <input type="text" placeholder="" class="nom" id="nom" name="nom">
 
                     <label for="">Date de Naissance</label>
                     <div class="date_naissance">
                  
-                    <input type="text" placeholder="JJ" class="Jour" id="Jour">
-                    <input type="text" placeholder="MM" class="Mois" id="Mois">
-                    <input type="text" placeholder="AAAA" class="Année" id="Année">
+                    <input type="text" placeholder="JJ" class="Jour" id="Jour" name="jour">
+                    <input type="text" placeholder="MM" class="Mois" id="Mois" name="mois">
+                    <input type="text" placeholder="AAAA" class="Année" id="Année" name="anne">
                     </div>
                     <label for="telephone">Telephone</label>
-                    <input type="text" placeholder="" class="telephone" id="telephone">
+                    <input type="text" placeholder="" class="telephone" id="telephone" name="tel">
 
                     <label for="email">Email</label>
-                    <input type="text" placeholder="" class="email" id="email">
+                    <input type="text" placeholder="" class="email" id="email" name="mail">
+                     <label for="pass">Mot de passe</label>
+                    <input type="password" placeholder="" class="telephone" id="pass" name="pass">
+
+                    <label for="password">Confirmer le mot de passe</label>
+                    <input type="password" placeholder="" class="telephone" id="password" name="password">
 
                     <button type="submit">Créer votre compte </button>
 
@@ -57,7 +70,20 @@
                 
                 
             </div>
+            <script>
+    // Attendre 5 secondes après le chargement de la page
+    window.onload = function() {
+        // Sélectionner tous les éléments avec la classe 'flash'
+        var flashElements = document.querySelectorAll('.flash');
 
+        flashElements.forEach(function(flashElement) {
+            // Définir un délai de 5 secondes avant de masquer l'élément
+            setTimeout(function(){
+                flashElement.style.display = 'none'; // ou flashElement.parentNode.removeChild(flashElement) pour le supprimer complètement
+            }, 5000); // 5000 millisecondes = 5 secondes
+        });
+    };
+</script>
         </section>
 
     </section>

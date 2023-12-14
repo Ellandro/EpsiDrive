@@ -2,21 +2,26 @@
 {% block content %}
 
 <section class="container">
+    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert-{{category}}" id="mes">{{message}}</div>
+                        {% endfor %}
+                        {% endif %}
+            {% endwith %}
         <header>Ajouter Test</header>
-        <form action="#" class="form">
+        <form action="{{ url_for('add_test')}}" class="form" method="POST" enctype="multipart/form-data">
           <div class="input-box1">
             <label>Nom Test</label>
-            <input type="text" placeholder="Entrer votre test" required />
+            <input type="text" placeholder="Entrer votre test" name="nom_test" required />
           </div>
           <div class="input-box1 address">
             <div class="column">
-              <div class="select-box">
-                <select>
-                  <option hidden>Module</option>
-                  <option>module 1</option>
-                  <option>module 2</option>
-                  <option>module 3</option>
-                  <option>module 4</option>
+             <div class="select-box">
+                <select name="module">
+                    {% for row in data_test %}
+                        <option value="{{row.0}}" selected>{{row.1}}</option>
+                     {% endfor %}
                 </select>
               </div>
             </div>
@@ -24,7 +29,7 @@
           <div class="column">
             <div class="input-box1">
               <label>Image</label>
-              <input type="file"  required />
+              <input type="file"  name="image" accept="image/"  required />
             </div>
           </div>
           <div class="btn">
@@ -32,6 +37,9 @@
             <button type="submit">Ajouter</button>
           </div>
         </form>
+   <style>
+  @import url('https://fonts.googleapis.com/css2?family=Autour+One&display=swap');
+</style>
     <style>
         body {
   min-height: 100vh;
@@ -46,6 +54,7 @@ a{
     color:#fff;
 }
 .container {
+  font-family:"autour one";
   position: relative;
   max-width: 700px;
   width: 100%;

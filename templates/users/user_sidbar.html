@@ -1,0 +1,167 @@
+
+
+<div class=cadre-ex>
+<div class=cadre-accordeon>
+<input type="radio" name="accordeon" id="votre_menu">
+<div class=accordeon>
+<label for="votre_menu">Rubrique 1</label>
+<div class=nav>
+<ul>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class=cadre-accordeon>
+<input type="radio" name="accordeon" id="votre_menu1" checked>
+<div class=accordeon>
+<label for="votre_menu1">Rubrique 2</label>
+<div class=nav>
+<ul>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class=cadre-accordeon>
+<input type="radio"  name="accordeon" id="votre_menu2">
+<div class=accordeon>
+<label for="votre_menu2">Rubrique 3</label>
+<div class=nav>
+<ul>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class=cadre-accordeon>
+<input type="radio" name="accordeon" id="votre_menu3">
+<div class=accordeon>
+<label for="votre_menu3">Rubrique 4</label>
+<div class=nav>
+<ul>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class=cadre-accordeon>
+<input type="radio" name="accordeon" id="votre_menu4">
+<div class=accordeon>
+<label for="votre_menu4">Rubrique 5</label>
+<div class=nav>
+<ul>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+<li><a href="">lien</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<style>
+
+
+
+*,
+*::before,
+*::after{
+
+box-sizing: border-box
+
+}
+
+input[type=radio] {display:none}
+
+
+
+.cadre-ex{
+
+max-width: 300px;
+margin: 2rem auto
+
+	}
+
+.accordeon{
+
+display: grid;
+transition:grid-template-rows .4s ease-in-out;
+grid-template-rows: 1fr 0;
+overflow: hidden;
+
+}
+
+.nav ul{
+
+list-style-type: none;
+padding: 0;
+margin: 0
+
+	}
+
+.nav li a{
+
+background-color: #e5e5e5;
+display: flex;
+justify-content: center;
+height: 3rem;
+align-items: center;
+
+	}
+
+.cadre-accordeon label{
+
+cursor : pointer;
+display: flex;
+background-color: #6753ea;
+color: white;
+padding: .5rem
+
+	}
+
+.cadre-accordeon label::before{
+
+content: '↓';
+margin-right: 1rem
+
+	}
+
+.cadre-accordeon input:checked ~ .accordeon label::before{
+
+content:'→'
+
+}
+
+.cadre-ex input:checked ~ .accordeon label,
+.cadre-ex label:hover{
+
+filter: saturate(220%)
+
+	}
+
+.cadre-accordeon input:checked ~  .accordeon {
+
+grid-template-rows: 1fr 15rem;
+
+	}
+
+
+</style>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/register.css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='./Images/logo.png')}}">
     <title>Document</title>
 </head>
 <body>
@@ -16,18 +17,23 @@
                 <div class="logo_drive">
                     <img src="../static/Images/logo.png" alt="" width=260% height=260%>
                 </div>
+                 {% for message in get_flashed_messages() %}
+                         <div class="alert alert-{{ message.category }} flash">
+                 {{ message }}
+                 </div>
+                {% endfor %}
                 <div class="Se_connecter">
                     <div class="Google"><img src="../static/Images/chercher.png" alt="google"><a href="#">Connexion Google</a></div>
                     <div class="Facebook"><img src="../static/Images/facebook.png" alt="facebook"><a href="#">Connexion Facebook</a></div>
                 </div>
                    <div><h4>-OU-</h4></div>
 
-                <form action="">
+                <form action="{{ url_for('login')}}" method="post">
                     <label for="adresse">Adresse email</label>
-                    <input type="text" placeholder="" class="adresse" id="adresse">
+                    <input type="email" placeholder="" class="adresse" id="adresse" name="mail">
 
                     <label for="mot_passe">Mot de passe</label>
-                    <input type="text" placeholder="" class="mot_passe" id="mot_passe">
+                    <input type="password" placeholder="" class="mot_passe" id="mot_passe" name="password">
 
                     <div class="souvenir">
                         <input type="checkbox" placeholder="" class="#" id="#">Se souvenir de moi
@@ -49,7 +55,20 @@
             </section>
 
         </section>
+      <script>
+    // Attendre 5 secondes après le chargement de la page
+    window.onload = function() {
+        // Sélectionner tous les éléments avec la classe 'flash'
+        var flashElements = document.querySelectorAll('.flash');
 
+        flashElements.forEach(function(flashElement) {
+            // Définir un délai de 5 secondes avant de masquer l'élément
+            setTimeout(function(){
+                flashElement.style.display = 'none'; // ou flashElement.parentNode.removeChild(flashElement) pour le supprimer complètement
+            }, 5000); // 5000 millisecondes = 5 secondes
+        });
+    };
+</script>
     </section>
 </body>
 </html>

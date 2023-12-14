@@ -6,23 +6,39 @@
         <button><a href="{{ url_for('add_module')}}">Ajouter</a></button>
       </div>
       <div class="main-skills">
+        {% for element in module %}
         <div class="card">
           <i class="fas fa-laptop-code"></i>
-          <h3>Module 1 </h3>
-          <p>Code de la  route</p>
-          <button>Voir</button>
+          <h3>Module{{loop.index}} </h3>
+          <p>{{element.1}}</p>
+          <div class="buttons-container" id="buttons-container">
+            <a href="#" class="delete-button"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a>
+            <a href="{{ url_for('view_cours')}}" class="delete-button"><i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i></a>
+            <a href="#" class="edit-button"><i class="fa-regular fa-pen-to-square" style="color: #2e8d1b;"></i></a>
+            </div>
         </div>
+        {% endfor %}
         <div class="card">
           <i class="fab fa-wordpress"></i>
           <h3>Module 2</h3>
           <p>Auto route</p>
           <button>Voir</button>
+          <div class="buttons-container" >
+            <a href="#" class="delete-button"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a>
+            <a href="#" class="delete-button"><i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i></a>
+            <a href="#" class="edit-button"><i class="fa-regular fa-pen-to-square" style="color: #2e8d1b;"></i></a>
+            </div>
         </div>
         <div class="card">
           <i class="fas fa-palette"></i>
           <h3>Module 3</h3>
           <p>Signaux de danger</p>
           <button>Voir</button>
+          <div class="buttons-container" >
+            <a href="#" class="delete-button"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a>
+            <a href="#" class="delete-button"><i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i></a>
+            <a href="#" class="edit-button"><i class="fa-regular fa-pen-to-square" style="color: #2e8d1b;"></i></a>
+            </div>
         </div>
       </div>
       <div class="main-skills">
@@ -31,18 +47,33 @@
           <h3>Module 4 </h3>
           <p>Code de la  route</p>
           <button>Voir</button>
+          <div class="buttons-container" >
+            <a href="#" class="delete-button"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a>
+            <a href="#" class="delete-button"><i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i></a>
+            <a href="#" class="edit-button"><i class="fa-regular fa-pen-to-square" style="color: #2e8d1b;"></i></a>
+            </div>
         </div>
         <div class="card">
           <i class="fab fa-wordpress"></i>
           <h3>Module 5</h3>
           <p>Auto route</p>
           <button>Voir</button>
+          <div class="buttons-container" >
+            <a href="#" class="delete-button"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a>
+            <a href="#" class="delete-button"><i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i></a>
+            <a href="#" class="edit-button"><i class="fa-regular fa-pen-to-square" style="color: #2e8d1b;"></i></a>
+            </div>
         </div>
         <div class="card">
           <i class="fas fa-palette"></i>
           <h3>Module 6</h3>
           <p>Signaux de danger</p>
           <button>Voir</button>
+          <div class="buttons-container" >
+            <a href="#" class="delete-button"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a>
+            <a href="#" class="delete-button"><i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i></a>
+            <a href="#" class="edit-button"><i class="fa-regular fa-pen-to-square" style="color: #2e8d1b;"></i></a>
+            </div>
         </div>
       </div>
       <div class="main-skills">
@@ -51,19 +82,38 @@
           <h3>Module 7 </h3>
           <p>Code de la  route</p>
           <button>Voir</button>
+          <div class="buttons-container" >
+            <a href="#" class="delete-button"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a>
+            <a href="#" class="delete-button"><i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i></a>
+            <a href="#" class="edit-button"><i class="fa-regular fa-pen-to-square" style="color: #2e8d1b;"></i></a>
+            </div>
         </div>
         <div class="card">
           <i class="fab fa-wordpress"></i>
           <h3>Module 8</h3>
           <p>Auto route</p>
           <button>Voir</button>
+          <div class="buttons-container" >
+            <a href="#" class="delete-button"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a>
+            <a href="#" class="delete-button"><i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i></a>
+            <a href="#" class="edit-button"><i class="fa-regular fa-pen-to-square" style="color: #2e8d1b;"></i></a>
+            </div>
         </div>
         <div class="card">
           <i class="fas fa-palette"></i>
           <h3>Module 9</h3>
           <p>Signaux de danger</p>
           <button>Voir</button>
+          <div class="buttons-container" >
+            <a href="#" class="delete-button"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a>
+            <a href="#" class="delete-button"><i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i></a>
+            <a href="#" class="edit-button"><i class="fa-regular fa-pen-to-square" style="color: #2e8d1b;"></i></a>
+            </div>
         </div>
       </div>
     </section>
+<style>
+
+</style>
+
 {% endblock %}

@@ -487,14 +487,13 @@ footer .down{
 } */
 
 /* ########################################""midlle of principal site ############################" */
+
+
+                                                        /* SECTION 1   */
 .first{
-    height: 600px;
+    height: 60vh;
     width: 100%;
     background-color: white;
-}
-
-section{
-    border-bottom: 1px solid #383737ad;
 }
 
 .rec1{
@@ -506,7 +505,7 @@ section{
 .rec1 h1{
     font-family: 'Autour One';
     font-weight: 400;
-    font-size: 50px;
+    font-size: 3rem;
 }
 
 .rec1 .gauche{
@@ -526,20 +525,20 @@ section{
 
 .droite .photo1{
     width: 100%;
-    height: 50%;
+    height: 100%;
     background-image: url(./images/laughing-lady.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-color: rgb(8, 212, 142);
-    border-radius: 100% 90% 90% 25%/100% 90% 90% 25%;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;;
     border: solid rgb(8, 212, 142);
     position: absolute;
-    margin-top: 100px;
+    margin-top: 5.5rem;
 }
 
 .rec2{
     width: 50%;
-    height: 10%;
+    height: 20%;
     display: flex;
     justify-content: space-around;
 }
@@ -559,16 +558,64 @@ section{
     font-family:'Autour One' ;
 }
 
+.txt p{
+    font-size: 1rem;    
+}
+
+@media only screen and (max-width: 1024px) {
+    .rec1 h1 {
+        font-size: 1.5rem; 
+        font-weight: 100;
+    }
+
+    .rec1 .gauche,
+    .rec1 .droite {
+        width: 100%; 
+    }
+
+    .rec2 {
+        width: 100%; 
+        height: 20%;
+    }
+    
+    .droite .photo1 {
+        width: 100%; 
+        margin-top: 2rem; 
+    }
+}
+
+
+@media only screen and (max-width: 480px) {
+    .rec1 h1 {
+        font-size: 1rem; 
+        font-weight: 100;
+    }
+    
+    .droite .photo1 {
+        margin-top: 1rem;
+    }
+
+    .rec2{
+        height: 20%;
+    }
+}
+
+
+                                                /* SECTION 2  */
+
 .second{
-    height: 450px;
+    height: 60vh;
     width: 100%;
     background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .second .up{
     width: 30%;
     height: 15%;
-    padding: 20px;
+    padding: 1.25rem;
 }
 
 .up h1{
@@ -590,19 +637,19 @@ section{
 }
 
 .reste .carre1, .carre2{
-    width: 30%;
-    height: 60%;
-    border-radius: 20px;
+    width: 28%;
+    height: 65%;
+    border-radius: 1.25rem;
     background-color: rgb(177, 177, 177);
     display: flex;
-
+    
     flex-direction: column;
 }
 
 .titre{
     width: 100%;
     height: 30%;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     color: black;
     display: flex;
     text-align: center;
@@ -622,7 +669,7 @@ section{
 .bas{
     width: 100%;
     height: 70%;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -632,29 +679,85 @@ section{
 
 .bas .prix{
     width: 100%;
-    height: 40%;
+    height: 40%;    
     color: white;
     font-size: 1.5rem;
     text-align: center;
-    margin-top: 10px;
+    margin-top: 0.625rem;
 }
 
-.bas .btn1{
+.bas .btn{
     width: 35%;
-    height: 17%;
+    height: 19%;
     background-color: black;
     color: white;
     font-size: 1.2rem;;
-    border-radius: 5px;
-    margin-top: 10px;
+    border-radius: 0.3125rem;
+    margin-top: 0.625rem;
     text-align: center;
-    margin-bottom: 5px;
+    margin-bottom: 0.3125rem;
     cursor: pointer;
 }
 
+@media only screen and (max-width: 1024px) {
+    .second {
+        height: auto; 
+    }
+
+    .up,
+    .reste {
+        width: 100%;
+        font-size: smaller;
+    }
+
+    .up {
+        height: auto; 
+        padding: 1rem; 
+    }
+
+    .reste {
+        flex-direction: column; 
+    }
+
+    .reste .carre1,
+    .reste .carre2 {
+        width: 50%;
+        margin-bottom: 1rem; 
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .second {
+        height: auto; 
+    }
+
+    .up,
+    .reste {
+        width: 100%; 
+    }
+
+    .up {
+        height: auto; 
+        padding: 1rem;
+    }
+
+    .reste {
+        flex-direction: column; 
+    }
+
+    .reste .carre1,
+    .reste .carre2 {
+        width: 100%; 
+        margin-bottom: 1rem; 
+    }
+}
+
+
+                                                        /* SECTION 3   */
+
 .third{
     width: 100%;
-    height: 600px;
+    height: 70vh;
     background-color: white;
 }
 
@@ -679,11 +782,12 @@ section{
     height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .square .gauche .rsm{
-    width: 100%;
-    height: 30%;
+    width: 50%;
+    /* height: 43%; */
     margin-left: 13rem;
 }
 
@@ -693,17 +797,17 @@ section{
 
 .rec_txt{
     width: 100%;
-    height: 50%;
+    height: 70%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-left: 70px;
+    margin-left: 4.375rem;
 }
 
 .rec_txt div{
-    width: 42%;
-    height: 20%;
-    margin-left: 15rem;
+    /* width: 40%;
+    height: 33%; */
+    margin-left: 10rem;
 }
 
 .rec_txt div i{
@@ -712,35 +816,109 @@ section{
 
 .square .droite{
     width: 50%;
-    height: 85%;
-    position: relative;
+    height: 75%;
 }
 
 .photo2{
-    width: 80%;
-    height: 60%;
+    width: 70%;
+    height: 270px;
     background-image: url(./images/Présentation\ Lancement\ du\ Projet\ et\ Brainstorming\ Orange\ et\ Rose\ 2.png);
     background-size: cover;
     background-repeat: no-repeat;
-    margin-top: 50px;
 }
 
 .btn2{
     width: 20% !important;
-    height: 10% !important;
+    height: 14% !important;
     background-color: rgb(76, 52, 224);
     color: white;
     font-size: 1rem;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     text-align: center;
     cursor: pointer;
-    margin-top: 2px;
+    margin-top: 0.125rem;
     margin-left: 9rem !important;
 }
 
+@media only screen and (max-width: 1200px) {
+
+    .third{
+        height: auto;
+    }
+
+    .third .txt{
+        height: auto;
+        font-size: 1rem;
+    }
+
+    .square .gauche .rsm {
+        margin-left: 8rem; 
+        height: auto;
+    }
+
+    .rsm h1, p{
+        font-size: smaller;
+    }
+
+    .rec_txt {
+        margin-left: 3rem; 
+        height: auto;
+    }
+
+    .rec_txt div {
+        margin-left: 8rem; 
+        height: auto;
+        font-size: smaller;
+
+    }
+
+    .square .droite{
+        width: 50%;
+        height: 70%;
+    }
+    
+    .photo2 {
+        max-width: 100%; 
+        height: 200px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .third {
+        height: auto; 
+    }
+
+    .third .txt{
+        height: auto;
+        font-size: 0.5rem;
+    }
+
+    .square .gauche .rsm {
+        margin-left: 0; 
+    }
+
+    .rec_txt {
+        margin-left: 0; 
+    }
+
+    .rec_txt div {
+        width: 100%; 
+        margin-left: 0; 
+    }
+
+    .photo2 {
+        max-width: 100%; 
+        height: 120px;
+    }
+}
+
+
+
+                                                        /* SECTION 4   */
+
 .four{
     width: 100%;
-    height: 450px;
+    height: 56.25vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -757,7 +935,7 @@ section{
 
 .square2{
     width: 100%;
-    height: 80%;
+    height: 75%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -765,18 +943,18 @@ section{
 }
 
 .square2 .avis{
-    width: 30%;
+    width: 28%;
     height: 60%;
-    border-radius: 30px;
+    border-radius: 1.875rem;
     background-color: white;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
 .avis .photo{
-    width: 30%;
+    width: 18%;
     height: 40%;
     border-radius: 100%;
     background-image: url(./images/4-1.png);
@@ -786,133 +964,124 @@ section{
 
 .avis .commentaire{
     width: 100%;
-    height: 40%;
+    height: 45%;
     text-align: center;
 }
 
 .avis .nom{
     width:  50%;
     height: 10%;
-    text-align: center;
+    text-align: center;   
 }
-/* ############################# Responsive ################################### */
-@media only screen and (max-width: 600px) {
-    .first{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-    .menu{
-        /* background-color: red; */
-        display: none;
-    }
-    .rec1{
-        display: flex;
-        flex-direction: column;
-        align-items:center;
-        justify-content: center;
-        border: 1px solid red;
 
-    }
-    .gauche h1{
-        font-size: 20px;
-        height: 30vh;
-        word-spacing: 04px;
-        letter-spacing: 3px;
-    }
-    .droite{
-        width: 100%;
-        height: 100px;
-    }
-    .photo1{
-        border:4px solid #42d408;
-        background-color: #77B7F2;
-    }
-    .rec2{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: 1px solid black;
-        height: 70vh;
-        width: 100%;
-    }
-    .second{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border: 2px solid saddlebrown;
-        padding: 0;
-        margin: 0;
-    }
-    .second .reste{
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        align-items: center;
-
-    }
-    .second .reste .carre1, .second .reste .carre2{
+@media only screen and (max-width: 1024px) {
+    .four .title {
         width: 60%;
-        height: 50vh;
     }
-    .third{
-        display: flex;
-        flex-direction: column;
+
+    .square2 .avis {
+        width: auto;
     }
-    .third h1{
-        font-size: 25px;
+
+    .avis .photo {
+        width: 25%;
     }
-    .square{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+
+    .avis .commentaire{
+        width: auto;
+        height: auto;
+        font-size: smaller;
     }
-    .square .gauche{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    .square .rec_txt{
-        display: flex;
-        flex-direction: column;
-    }
-    .rsm{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .rsm h1{
-        font-size: 10px;
+
+    .avis .nom{
+        width:  auto;
+        height: auto;
+        font-size: smaller;  
     }
 }
-@media only screen and (max-width: 992px) {
-    footer{
-        height: 80vh;
-        
+
+
+@media only screen and (max-width: 480px) {
+    .four .title {
+        width: auto; 
+        font-size: smaller;
     }
-    footer .down{
-      display: none;  
+
+    .square2 .avis {
+        width: auto; 
+        margin-bottom: 1rem; 
     }
-    hr{
-        display: none;
-    }
-    footer .top{
-        display: flex;
-        flex-direction: column;
-        /* justify-content: center;  */
-        align-items: center;
-    }
-    /* footer .flash{
-        display: none;
-    } */
-    .none{
-        display: block;
-        width: 600px;
     
+    .avis .photo {
+        width: auto; 
+        height: auto;
     }
+    
+    .avis .nom{
+        width:  auto;
+        height: auto;
+        font-size: smaller;  
     }
+
+    .avis .commentaire{
+        width:  auto;
+        height: auto;
+        font-size: smaller;  
+
+    }
+}
+
+
+                                                /* AJOUT MODULE */
+
+
+ .btn{
+    width:  100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+ .btn4{
+    border: solid blue 1px;
+    background-color: green;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+    width: 20%;
+ }
+
+ .btn5{
+    border: solid blue 1px;
+    background-color: red;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px;
+    width: 20%;
+    margin-right: 10px;
+    cursor: pointer;
+
+ }
+
+
+ .right{
+    width: 80%;
+    height: 100%;
+    background-color: white;
+    text-align: left;
+ }
+
+.right p{
+    font-size: 1.5rem;
+    color:rgb(8, 212, 142);
+    font-weight: 800;
+    text-decoration: underline;
+}
+
+
+
+
 
     /* categorie de permis de conduire */
 
@@ -1044,11 +1213,11 @@ section{
 .premium .btn button{
   background: #08D48E;
   }
-.premium ::selection,
+/* .premium ::selection,
 .premium .price-area,
 .premium .inner-area,
 
-}
+} */
 .premium .btn button:hover{
   background: #833af8;
 }
@@ -1104,7 +1273,7 @@ section{
   width: 150px;
   height: 150px;
   position: absolute;
-  top: -10px;   a
+  top: -10px;
   left: -10px;
   overflow: hidden;
 }

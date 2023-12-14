@@ -306,3 +306,16 @@ const downloadFile = function (data, fileType, fileName = '') {
     a.click();
     a.remove();
 }
+
+// Attendre 5 secondes après le chargement de la page
+    window.onload = function() {
+        // Sélectionner tous les éléments avec la classe 'flash'
+        var flashElements = document.querySelectorAll('.flash');
+
+        flashElements.forEach(function(flashElement) {
+            // Définir un délai de 5 secondes avant de masquer l'élément
+            setTimeout(function(){
+                flashElement.style.display = 'none'; // ou flashElement.parentNode.removeChild(flashElement) pour le supprimer complètement
+            }, 5000); // 5000 millisecondes = 5 secondes
+        });
+    };

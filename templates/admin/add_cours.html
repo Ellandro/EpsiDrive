@@ -1,20 +1,20 @@
-{% extends "./dashbord/base.html" %}
+{% extends "./admin/main.html" %}
 {% block content %}
 <div class="container home">
 		<div class="contact-box">
 			<div class="left"></div>
 			<div class="right">
-				<form>
+				<form action="{{ url_for('add_cours') }}" method="post">
 				<h2>Contact Us</h2>
-				<input type="text" class="field" placeholder="Titre">
-				<select name=""   class="field">
-					<option>Module1</option>
-					<option>Module1</option>
-					<option>Module1</option>
-					<option>Module1</option>
+				<input type="text" class="field" placeholder="Titre" name="titre">
+				<select name="module"   class="field">
+					 <option value="">----------------</option>
+					{% for module in module %}
+					<option value="{{ module[0] }}">	{{ module[1] }}</option>
+					{% endfor %}
 				</select>
-				<textarea placeholder="Contenu" class="field"></textarea>
-				<button class="btn">Enregistrer</button>
+				<textarea placeholder="Contenu" class="field" name="contenu"></textarea>
+				<button class="btn" type="submit">Enregistrer</button>
 				</form>
 			</div>
 		</div>
@@ -63,11 +63,7 @@
 	box-shadow: 0px 0px 19px 5px rgba(0,0,0,0.19);
 }
 
-.left{
-	background: url("../static/Images/bg.jpg") no-repeat center;
-	background-size: cover;
-	height: 100%;
-}
+
 
 .right{
 	padding: 25px 40px;

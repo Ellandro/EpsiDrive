@@ -1,28 +1,37 @@
 {% extends './base.html' %} {% block content %}
 <!-- Ecrire a l'interieur des blocks -->
 <section class="first">
-   
+
     <div class="rec1">
-        <!-- <i class="fa-sharp fa-regular fa-stars"></i>
-        <i class="fa-solid fa-sun-bright fa-spin" style="color: #211de2;"></i> -->
         <div class="gauche">
+            <!-- <i class="fa-regular fa-sun-bright" style="color: #245ec2;"></i> -->
             <h1>L'AUTO-ÉCOLE QUI <br>
                 ASSURE MÊME <br>
                 APRÈS LE PERMIS</h1>
         </div>
+        
         <div class="droite">
-            <div class="photo1"></div>
+            <i class="fa-solid fa-fan" style="color: #17b537;"></i>
+            <!-- <i class="fa-regular fa-sun fa-spin-pulse" style="color: #2766d3;"></i> -->
+            <div class="photo1">
+                <i class="fa-solid fa-caret-up fa-rotate-180" style="color: #dbd50f;"></i>
+            <i class="fa-regular fa-sun fa-spin-pulse" style="color: #2766d3;"></i>
+            </div>
+            
         </div> 
+        <i class="fa-solid fa-star" style="color: #ffcb0f;"></i>
     </div>
 
     <div class="rec2">
         <div class="dispo">
-            <div><br>24h/24</div>
-            <div>DISPONIBLE <br></div>
+            <div><br>24/24</div>
+            <div>DISPONIBLE  <br></div>
         </div>
+
         <div class="txt">
             <p>Vos cours et tests de permis de conduire en toute <br>
                 securité en en toute garantie choisissez ESPIDRIVE</p>
+                <i class="fa-regular fa-bahai fa-spin fa-spin-reverse" style="color: #1751b5;"></i>
         </div>
     </div>  
 </section>
@@ -32,19 +41,20 @@
         <p>Bon de réduction</p>
         <h1><strong>Nos offres</strong></h1>
     </div>
+
     <div class="reste">
         <div class="carre1">
             <div class="titre"><strong>Code de la route</strong></div>
             <div class="bas">
                 <div class="prix">1000 FCFA / an</div>
-                <div class="btn1"><strong><a href="{{url_for('mode_paiement')}}">Je m'inscris</a></strong></div>
+                <div class="btn"><strong>Je m'inscris</strong></div>
             </div>
         </div>
         <div class="carre2">
             <div class="titre"><strong>Permis de conduire</strong></div>
             <div class="bas">
                 <div class="prix">10 000 FCFA / an</div>
-                <div class="btn1"><strong><a href="{{url_for('category')}}">Voir</a></strong></div>
+                <div class="btn"><strong>Voir</strong></div>
             </div>
         </div>
     </div>
@@ -62,30 +72,31 @@
             <div class="rsm"> 
                 <h1><strong>Epsidrive</strong></h1>
                 <p>Afin de faciliter votre expérience, nous <br>
-                    vous permettons d’avancer à votre <br>
+                    vous permettons d’avancer à votre 
                     rythme sur la voie de la réussite.</p>
             </div>
 
             <div class="rec_txt">
-
-                <div > <i class="fa-solid fa-arrow-down"></i> Démarrez votre formation où vous <br>
+                <div > <i class="fa-solid fa-arrow-down"></i> Démarrez votre formation où vous 
                     le souhaitez.</div>
 
                 <div><i class="fa-solid fa-arrow-down"></i> Profitez de 2 000 questions <br>
-                    d’entraînement en ligne à l'heure que <br>
+                    d’entraînement en ligne à l'heure que 
                         vous voulez.</div>
 
                 <div><i class="fa-solid fa-arrow-down"></i> Démarrez votre formation où vous <br>
                      le souhaitez.</div>
 
-                <div class="btn2"><a href="mode_paiement">Je m'inscris</a></div>
+                <div class="btn2">Je m'inscris</div>
 
             </div>
            
         </div>
+
         <div class="droite">
             <div class="photo2"></div>
         </div>
+
     </div>
 </section>
 
