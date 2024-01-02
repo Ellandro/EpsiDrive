@@ -1,7 +1,7 @@
 {% extends './base.html' %}
 {% block content %}
 <section class="paiement_contener">
-  <div class="paiement">
+  <!-- <div class="paiement">
     <div class="type_paiement_contener">
       <div><h4>Simple, Transparent rricing</h4></div>
       <div class="type_paiement">
@@ -22,7 +22,66 @@
         <div class="mode_paiement_img2"></div>
         <div class="mode_paiement_img3"></div>
       </div>
-    </div>
+    </div> -->
+
+    <div class="container">
+      <div class="title">
+          <h4>Select a <span style="color: #6064b6">Payment</span> method</h4>
+      </div>
+
+      <form action="{{url_for('mode_paiement')}}" method="POST">
+          <input type="radio" name="payment" id="visa" value="MTN-money">
+          <input type="radio" name="payment" id="mastercard" value="orange">
+          <input type="radio" name="payment" id="paypal" value="moov">
+          <input type="radio" name="payment" id="AMEX" value="payplay">
+
+
+          <div class="category">
+              <label for="visa" class="visaMethod">
+                  <div class="imgName">
+                      <div class="imgContainer visa">
+                        <img src="https://i.ibb.co/fSPJDgj/MTN-Logo-1024x576.jpg" alt="MTN-Logo-1024x576" border="0" />
+                        <!-- <img src="https://i.ibb.co/6Wy6f7j/mtn-momo.png" alt="mtn-momo"/> -->
+                      </div>
+                      <span class="name">MTN-Money</span>
+                  </div>
+                  <span class="check"><i class="fa-solid fa-circle-check" style="color: #6064b6;"></i></span>
+              </label>
+
+              <label for="mastercard" class="mastercardMethod">
+                  <div class="imgName">
+                      <div class="imgContainer mastercard">
+                          <img src="https://i.ibb.co/NVwG2PV/orange-money.jpg" alt="orange-money" width="100px" />
+                      </div>
+                      <span class="name">OrangeMoney</span>
+                  </div>
+                  <span class="check"><i class="fa-solid fa-circle-check" style="color: #6064b6;"></i></span>
+              </label>
+
+              <label for="paypal" class="paypalMethod">
+                  <div class="imgName">
+                      <div class="imgContainer paypal">
+                          <img src="https://i.ibb.co/KVF3mr1/paypal.png" alt="">
+                      </div>
+                      <span class="name">Paypal</span>
+                  </div>
+                  <span class="check"><i class="fa-solid fa-circle-check" style="color: #6064b6;"></i></span>
+              </label>
+
+              <label for="AMEX" class="amexMethod">
+                  <div class="imgName">
+                      <div class="imgContainer AMEX">
+                          <!-- <img src="https://i.ibb.co/wQnrX86/American-Express.jpg" alt=""> -->
+                         <img src="https://i.ibb.co/SntR7Nk/moov-money.jpg" alt="moov-money"/>
+                      </div>
+                      <span class="name">AMEX</span>
+                  </div>
+                  <span class="check"><i class="fa-solid fa-circle-check" style="color: #6064b6;"></i></span>
+              </label>
+          </div>
+      </form>
+      
+  </div>
     <div class="numero_paiement">
       <form action="">
         <label for="numero">Entrez votre Numero de téléphone</label> <br />
@@ -55,8 +114,135 @@
       </form>
   </div>
   </div>
-</section>
+</section> 
 <style>
+  .container{
+    width: 70%;
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
+                0 5px 12px -2px rgba(0, 0, 0, 0.1),
+                0 18px 36px -6px rgba(0, 0, 0, 0.1);
+}
+
+.container .title{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container form input{
+    display: none;
+}
+
+.container form .category{
+    margin-top: 10px;
+    padding-top: 20px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 15px;
+}
+
+.category label{
+    /* width: 100%; */
+    /* height: 65px; */
+    height: 145px;
+    padding: 20px;
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
+    display: flex;
+    /* justify-content: space-between; */
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+    position: relative;
+}
+
+/* label:nth-child(2), label:nth-child(3){
+    margin: 15px 0;
+} */
+
+
+#visa:checked ~ .category .visaMethod,
+#mastercard:checked ~ .category .mastercardMethod,
+#paypal:checked ~ .category .paypalMethod,
+#AMEX:checked ~ .category .amexMethod{
+    box-shadow: 0px 0px 0px 1px #6064b6;
+}
+
+
+#visa:checked ~ .category .visaMethod .check,
+#mastercard:checked ~ .category .mastercardMethod .check,
+#paypal:checked ~ .category .paypalMethod .check,
+#AMEX:checked ~ .category .amexMethod .check{
+    display: block;
+}
+
+
+label .imgName{
+    display: flex;
+    /* justify-content: space-between;
+     */
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.imgName span{
+    /* margin-left: 20px; */
+    font-family: Arial, Helvetica, sans-serif;
+
+    position: absolute;
+    top: 72%;
+    transform: translateY(-72%);
+}
+
+.imgName .imgContainer{
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    top: 35%;
+    transform: translateY(-35%);
+}
+
+img{
+    width: 50px;
+    height: auto;
+}
+
+.visa img{
+    width: 80px;
+    /* margin-left: 5px; */
+}
+
+.mastercard img{
+    width: 65px;
+}
+
+.paypal img{
+    width: 80px;
+}
+
+.AMEX img{
+    width: 50px;
+}
+
+.check{
+    display: none;
+    position: absolute;
+    top: -4px;
+    right: -4px;
+}
+
+.check i{
+    font-size: 18px;
+}
+
 
 </style>
 {% endblock %}

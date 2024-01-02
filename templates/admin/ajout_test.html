@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter_Tests</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300i,400,400i,500,600,700,800%7CLora:400,400i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <section class="container">
+        <header>Ajouter Test</header>
+        <form method="POST" class="form" action="{{url_for('ajout_test')}}" enctype="multipart/form-data">
+          <div class="input-box">
+            <label>Nom Test</label>
+            <input type="text" name="nom" placeholder="Entrer votre test" required />
+          </div>
+          <div class="input-box address">
+            <div class="column">
+              <div class="select-box">
+                <select name="module">
+                  {% for row in data %}
+                    <option value="{{row.0}}" selected>{{row.1}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="input-box">
+              <label>Image</label>
+              <input type="file" name="image"  required />
+            </div>
+          </div>
+          <div class="btn">
+            <button class="red">Annuler</button>
+            <button type="submit" value="Soumettre">Ajouter</button>
+          </div>
+        </form>
+      </section>
+</body>
+</html>

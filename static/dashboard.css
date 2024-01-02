@@ -372,7 +372,7 @@ body.dark .switch::before{
     transition: var(--tran-05);
     /* margin-left: 5%; */
     margin-top: 10%;
-    /* overflow-x: hidden; */
+    overflow-x: hidden;
     z-index:-1;
 
 }

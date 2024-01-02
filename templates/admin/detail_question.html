@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>eepsidrive</title>
+  <!-- Font Awesome Cdn Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300i,400,400i,500,600,700,800%7CLora:400,400i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <div class="container">
+    <section class="main">
+      <section class="attendance">
+        <div class="attendance-list">
+          <h1>Liste des questions</h1>
+          <button id="button"><a href="{{url_for('add_question')}}">Ajouter</a></button>
+          <input placeholder="Recherche">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category,message in messages %}
+                    <div class="alert-{{category}}">{{message}}</div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+          <table class="table">
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>Nom_question</th>
+                <th>Description</th>
+                <th>choix 1</th>
+                <th>choix 2</th>
+                <th>choix 3</th>
+                <th>choix 4</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for row in data_detail %}
+              <tr>
+                <td>{{loop.index}}</td>
+                <td>{{row[2]}}</td>
+                <td>{{row[3]}}</td>
+                <td>{{row[4]}}</td>
+                <td>{{row[5]}}</td>
+                <td>{{row[6]}}</td>
+                <td>{{row[7]}}</td>
+                <td>
+                    <button><i class="fa-solid fa-pen-to-square"></i></button>
+                    <button class="btn2"><a href="{{url_for('Sup_question',sup_id=row[0])}}" onclick="return confirm('Vous etes sur')"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a></button>
+                  </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          <div class="pagination">
+            <div><i class="fa-solid fa-angles-left"></i></div>
+            <div><i class="fa-solid fa-angle-left"></i></div>
+            <div>1</div>
+            <div>2</div>
+            <div><i class="fa-solid fa-angle-right"></i></div>
+            <div> <i class="fa-solid fa-angles-right"></i></div>
+         </div>
+        </div>
+      </section>
+    </section>
+  </div>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700");
+*{
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body{
+  background: #dfe9f5;
+}
+.container{
+  display: flex;
+}
+nav{
+  position: relative;
+  top: 0;
+  bottom: 0;
+  height: 100vh;
+  left: 0;
+  background: #fff;
+  width: 280px;
+  overflow: hidden;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+.logo{
+  text-align: center;
+  display: flex;
+  margin: 10px 0 0 10px;
+}
+.logo img{
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+.logo span{
+  font-weight: bold;
+  padding-left: 15px;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+a{
+  position: relative;
+  color: rgb(85, 83, 83);
+  font-size: 14px;
+}
+nav .fas{
+  position: relative;
+  width: 70px;
+  height: 40px;
+  top: 14px;
+  font-size: 20px;
+  text-align: center;
+}
+.nav-item{
+  position: relative;
+  top: 12px;
+  margin-left: 10px;
+}
+
+.logout{
+  position: absolute;
+  bottom: 0;
+}
+/* Main Section */
+.main{
+  position: relative;
+  padding: 20px;
+  width: 100%;
+}
+.main-top{
+  display: flex;
+  width: 100%;
+}
+.main-top i{
+  position: absolute;
+  right: 0;
+  margin: 10px 30px;
+  color: rgb(110, 109, 109);
+  cursor: pointer;
+}
+
+.main-top button{
+    position: absolute;
+    right: 0;
+    margin: 5px 30px;
+    background: #08D48E;
+    color: #fff;
+    padding: 7px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+  }
+
+
+.main-skills{
+  display: flex;
+  margin-top: 20px;
+}
+.main-skills .card{
+  width: 35%;
+  margin: 10px;
+  background: #fff;
+  text-align: center;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+.main-skills .card h3{
+  margin: 10px;
+  text-transform: capitalize;
+}
+.main-skills .card p{
+  font-size: 15px;
+}
+.main-skills .card button{
+  background: #08D48E;
+  color: #fff;
+  padding: 7px 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+.main-skills .card button:hover{
+  background: #4C34E0;
+}
+.main-skills .card i{
+  font-size: 22px;
+  padding: 10px;
+}
+
+
+
+
+
+/*Attendance List serction  */
+.attendance{
+    margin-top: 20px;
+    text-transform: capitalize;
+  }
+  .attendance-list{
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+  }
+
+  .attendance-list #button{
+    position: absolute;
+    right: 0;
+    margin: 0px 30px;
+    background: #08D48E;
+    color: #fff;
+    padding: 7px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 130px;
+    height: 50px;
+  }
+
+.attendance-list #button a{
+    text-decoration: none;
+    width: 20px;
+    text-align: center;
+    color: white;
+
+  }
+
+
+  .table{
+    border-collapse: collapse;
+    margin: 70px 0;
+    font-size: 15px;
+    min-width: 100%;
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 10px 20px;
+}
+
+.pagination div {
+    padding: 10px;
+
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#08D48E;
+    color: #ffffff;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.7);
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+
+  input {
+    padding: 10px 20px;
+    margin: 0 200px;
+    outline: none;
+    border: 1px solid  #08D48E;
+    border-radius: 6px;
+    color: #0298cf;
+    float: right;
+}
+
+button {
+ margin: 5px;
+}
+
+
+td button:nth-child(1){
+    color: #0298cf;
+
+
+}
+
+td button:nth-child(2){
+    color: #f80000;
+
+}
+
+  table thead tr{
+    color: #fff;
+    background: #34AF6D;
+    text-align: left;
+    font-weight: bold;
+  }
+  .table th,
+  .table td{
+    padding: 12px 15px;
+  }
+  .table tbody tr{
+    border-bottom: 1px solid #ddd;
+  }
+  .table tbody tr:nth-of-type(odd){
+    background: #f3f3f3;
+  }
+  .table tbody tr.active{
+    font-weight: bold;
+    color: #4AD489;
+  }
+  .table tbody tr:last-of-type{
+    border-bottom: 2px solid #4AD489;
+  }
+  td img {
+    height: 60px;
+    width: 60px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 5px solid #ced0d2;
+}
+  .table button{
+    padding: 6px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #4AD489;
+  }
+  .table button:hover{
+    background: #4AD489;
+    color: #fff;
+    transition: 0.5rem;
+  }
+  </style>
+</body>
