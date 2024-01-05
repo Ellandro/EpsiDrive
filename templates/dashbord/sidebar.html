@@ -1,3 +1,193 @@
+{% if (session.get("user")) %}
+
+
+<style>
+    /* Votre CSS actuel reste inchangé */
+
+    .nav-link ul {
+      display: none;
+      padding-left: 20px; /* Ajout de la marge pour l'indentation */
+    }
+
+    .nav-link.open ul {
+      display: block;
+    }
+
+    /* Ajoutez des styles pour la flèche */
+    .toggle {
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .open .toggle {
+      transform: rotate(90deg);
+    }
+  </style>
+<nav class="sidebar close">
+  <header>
+    <!-- ... contenu du header ... -->
+    <i class='bx bx-chevron-right toggle'></i>
+  </header>
+
+  <div class="menu-bar">
+    <div class="menu">
+      <li class="search-box">
+        <i class='bx bx-search icon'></i>
+        <input type="text" placeholder="Search...">
+      </li>
+
+      <ul class="menu-links">
+        <li class="nav-link">
+          <a href="#">
+            <i class='bx bx-home-alt icon' ></i>
+            <span class="text nav-text">Dashboard</span>
+          </a>
+        </li>
+<style>
+   .menu-section-btn {
+      width: 100%;
+      padding: 10px;
+      text-align: left;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .arrow-icon {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      transition: transform 0.3s;
+    }
+
+    .menu-sub-items {
+      display: none;
+      padding: 5px 0;
+      background-color: #34495e;
+    }
+
+    .menu-sub-items a {
+      display: block;
+      padding: 8px 15px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .menu-sub-items a:hover {
+      background-color: #2c3e50;
+    }
+
+    .menu-section.active .menu-sub-items {
+      display: block;
+    }
+
+    .menu-section.active .arrow-icon {
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+</style>
+{% for data in data %}
+  <div class="menu-section menu-links">
+  <li class="menu-section-btn">
+            <i class='bx bx-home-alt icon' ></i>
+
+    <span class="text nav-text" >MODULE {{loop.index}}</span>
+    <span class="arrow-icon text ">&#9662;</span>
+  </li>
+  <ul class="menu-sub-items">
+    <li><a href="#">Item 1.1</a></li>
+    <li><a href="#">Item 1.2</a></li>
+  </ul>
+</div>
+{% endfor %}
+    <!-- Add more sections as needed -->
+
+
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const menuSections = document.querySelectorAll('.menu-section');
+
+    menuSections.forEach(function (section) {
+      const btn = section.querySelector('.menu-section-btn');
+
+      btn.addEventListener('click', function () {
+        menuSections.forEach(function (otherSection) {
+          if (otherSection !== section && otherSection.classList.contains('active')) {
+            otherSection.classList.remove('active');
+          }
+        });
+
+        section.classList.toggle('active');
+      });
+    });
+  });
+</script>
+
+
+
+        <li class="nav-link">
+          <a href="#">
+            <i class='bx bx-pie-chart-alt icon' ></i>
+            <span class="text nav-text">Examens</span>
+          </a>
+        </li>
+
+
+        <li class="nav-link">
+          <a href="#">
+            <i class='bx bx-wallet icon' ></i>
+            <span class="text nav-text">Commentaires</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="bottom-content">
+      <li class="">
+        <a href="#">
+          <i class='bx bx-log-out icon' ></i>
+          <span class="text nav-text">Deconnexion</span>
+        </a>
+      </li>
+
+      <li class="mode">
+        <div class="sun-moon">
+          <i class='bx bx-moon icon moon'></i>
+          <i class='bx bx-sun icon sun'></i>
+        </div>
+        <span class="mode-text text">Dark mode</span>
+
+        <div class="toggle-switch">
+          <span class="switch"></span>
+        </div>
+      </li>
+    </div>
+  </div>
+</nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toggleIcon = document.querySelector('.toggle');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    toggleIcon.addEventListener('click', function () {
+      document.querySelector('.sidebar').classList.toggle('open');
+    });
+
+    navLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
+        link.classList.toggle('open');
+      });
+    });
+  });
+</script>
+
+
+   {% else %}
 
     <nav class="sidebar close">
         <header>
@@ -93,8 +283,4 @@
         </div>
 
     </nav>
-
-    <script>
-    
-    </script>
-
+{% endif %}

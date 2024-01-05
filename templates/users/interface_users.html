@@ -65,6 +65,34 @@
     </svg>
   </div>
   </div>
+  <script>
+    function updateProgressBar() {
+        let progressBar = document.getElementById("progressBar");
+        let progressText = document.getElementById("progressText");
+
+        // Fetch the initial progress value from the server
+        fetch("/get_progress")
+            .then(response => response.json())
+            .then(data => {
+                let progressValue = data.progress_percentage || 0;
+                // Update the progress value dynamically
+                setInterval(() => {
+                    progressValue += 1;
+                    if (progressValue > 100) {
+                        progressValue = 100;
+                    }
+
+                    progressBar.style.width = progressValue + "%";
+                    progressText.innerText = progressValue + "%";
+                }, 1000);
+            });
+    }
+
+    // Call the function when the page is loaded
+    window.onload = updateProgressBar;
+</script>
+
+
   <style>
   .progress-container {
       width: 40%;

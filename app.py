@@ -80,7 +80,15 @@ def user():
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM modulesenseignes")
     modle = cursor.fetchall()
-    return render_template('./users/interface_users.html', module=modle)
+    cursor.execute("SELECT * FROM cours")
+    nbr_cours = cursor.fetchall()
+    nbr_cours = len(nbr_cours)
+    cursor.execute("SELECT * FROM progression where Statut='lu'")
+    nbr_lu = cursor.fetchall()
+    nbr_lu = len(nbr_lu)
+    percent = ((nbr_lu*100)/nbr_cours)
+    print(percent)
+    return render_template('./users/interface_users.html', module=modle, percent=percent)
 
 @app.route('/test/')
 def test():
@@ -654,12 +662,19 @@ def view_cours(module_id):
                                      password=app.config['MYSQL_PASSWORD'],
                                      database=app.config['MYSQL_DB'])
         cursor = connection.cursor()
+        cursor.execute("SELECT * FROM modulesenseignes ")
+        data = cursor.fetchall()
         cursor.execute("Select * from cours Where IDModule = %s order by IDCours",(module_id,))
 
         cours = cursor.fetchall()
         cursor.execute("SELECT * FROM progression WHERE module_id=%s", (module_id,))
         nbr=cursor.fetchall()
         nbr = len(nbr)
+        cursor.execute("SELECT * FROM progression WHERE module_id=%s and Statut='lu'", (module_id,))
+        nb_lu=cursor.fetchall()
+        nb_lu = len(nb_lu)
+        nbre = ((nb_lu*100)/nbr)
+        print(nbre)
         for row in cours:
             # Vérifiez si l'entrée existe déjà dans la table "progression"
             cursor.execute("SELECT * FROM progression WHERE utilisateur_id = %s AND module_id = %s AND cours_id = %s",
@@ -672,7 +687,7 @@ def view_cours(module_id):
                     "INSERT INTO progression (id, utilisateur_id, module_id, cours_id, date_consultation) VALUES (%s, %s, %s, %s, %s)",
                     (None, session['user'][0], module_id, row[0], datetime.now()))
 
-        return render_template("./admin/view_cours.html", courses = cours, nbr=nbr)
+        return render_template("./admin/view_cours.html", courses = cours, nbr=nbre, data=data)
 
 
 @app.route("/admin_cours/")
@@ -825,10 +840,26 @@ def supprimer_test(test_id):
 
     conn.close()
     return render_template('./admin/supprimer_test.html', data=test_data)
-
+@app.route("/add_auto/")
+def add_auto():
+    return render_template("admin/form_autoecole.html")
+@app.route("/view_auto/")
+def view_auto():
+    return render_template("admin/autoecole.html")
 @app.route("/user_sidbar/")
 def user_sidbar():
-    return render_template("./users/user_sidbar.html")
+    conn = pymysql.connect(
+        host=app.config['MYSQL_HOST'],
+        user=app.config['MYSQL_USER'],
+        password=app.config['MYSQL_PASSWORD'],
+        database=app.config['MYSQL_DB']
+    )
+    cur = conn.cursor()
+
+    # Récupérer les données du test existant
+    cur.execute("SELECT * FROM modules ")
+    data = cur.fetchall()
+    return render_template("./users/user_sidbar.html", data = data)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
