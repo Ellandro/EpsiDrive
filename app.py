@@ -1,8 +1,9 @@
 import os
+import pdfkit
 from datetime import datetime
 
 import pymysql
-from flask import Flask, render_template, redirect, flash, url_for, request, session
+from flask import Flask, render_template, redirect, flash, url_for, request, session,jsonify
 from flask_bcrypt import Bcrypt
 from werkzeug.utils import secure_filename
 from wtforms import FileField, SubmitField
@@ -12,6 +13,11 @@ from flask_wtf import FlaskForm
 from flask import Flask, request, url_for
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
+
+import paydunya
+from paydunya import Store, invoice
+
+
 
 app = Flask(__name__)
 # ? Les informations pour la connexion à ma db
@@ -67,7 +73,22 @@ def sidebar():
 
 @app.route('/user/')
 def user():
-    return render_template('./users/interface_users.html')
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM modulesenseignes")
+    modle = cursor.fetchall()
+    cursor.execute("SELECT * FROM cours")
+    nbr_cours = cursor.fetchall()
+    nbr_cours = len(nbr_cours)
+    cursor.execute("SELECT * FROM progression where Statut='lu'")
+    nbr_lu = cursor.fetchall()
+    nbr_lu = len(nbr_lu)
+    percent = ((nbr_lu*100)/nbr_cours)
+    print(percent)
+    return render_template('./users/interface_users.html', module=modle, percent=percent)
 
 @app.route('/test/')
 def test():
@@ -147,7 +168,7 @@ def login():
                     flash("Mot de passe ou email incorrect")
                 else:
                     session['logged_in'] = True
-                    if(user[9]=="user"):
+                    if(user[10]=="user"):
                         session['user']=user
                         return redirect(url_for("user"))
                     else:
@@ -306,7 +327,149 @@ def add_question():
         flash("Votre demande a été envoyé!", 'succes')
     return render_template('./admin/add_question.html', data_test=data)
 
+@app.route('/liste_question/<int:test_id>', methods=['GET'])
+def liste_question(test_id):
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+    cur = conn.cursor()
 
+    # Récupérez les questions associées au test_id depuis la base de données
+    cur.execute(
+        "SELECT question.id_question, test.Nom_test,question.Nom_test, question.Description, question.Choix1, question.Choix2, question.Choix3, question.Choix4, question.image FROM question INNER JOIN test ON question.id_test = test.id_test WHERE question.id_test = %s",
+        (test_id,))
+    data = cur.fetchall()
+
+    conn.commit()
+    conn.close()
+    return render_template('liste_question.html', data_question=data)
+
+
+@app.route('/detail_question/<int:idtest>', methods=['GET', 'POST'])
+def detail_question(idtest):
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+
+    cur = conn.cursor()
+    # Récupérez les questions associées au test_id depuis la base de données
+    cur.execute(
+        "SELECT * from questionstest where IDTest=%s",
+        (idtest,))
+    data = cur.fetchall()
+
+    conn.commit()
+    conn.close()
+    return render_template('./admin/detail_question.html', data_detail=data)
+
+
+@app.route('/ajouter_question', methods=['GET', 'POST'])
+def ajouter_question():
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM test")
+    data = cur.fetchall()
+
+    if request.method == 'POST':
+        nom_question = request.form['nom_question']
+        Description = request.form['Description']
+        Choix1 = request.form['Choix1']
+        Choix2 = request.form['Choix2']
+        Choix3 = request.form['Choix3']
+        Choix4 = request.form['Choix4']
+        test = request.form['test']
+        reponse = request.form["reponse_correcte"]
+
+        # Traitement de l'image
+        image = request.files['image']
+        if image:
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['QUESTION_FOLDER'], filename))
+        else:
+            filename = None
+
+            # Enregistrement dans la base de données
+        cur.execute('''
+                       INSERT INTO question (Nom_test, Description, Choix1, Choix2, Choix3, Choix4, id_test, image) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                   ''', (nom_question, Description, Choix1, Choix2, Choix3, Choix4, test, filename))
+        conn.commit()
+        cur.execute("select * FROM question where Nom_test = %s", (nom_question,))
+
+        id_question = cur.fetchone()
+        id_question = id_question[0]
+        cur.execute("""
+                insert into reponse values(%s,%s, %s, %s)
+        """, (None, test, id_question, reponse))
+        print(id_question, nom_question)
+        conn.commit()
+        conn.close()
+        flash("Votre question a été ajoutée!", 'succes')
+        return redirect(url_for('detail_question'))
+    return render_template('ajouter_question.html', data_test=data)
+
+
+@app.route('/Sup_question/<int:sup_id>', methods=['GET'])
+def Sup_question(sup_id):
+    sup_id = int(sup_id)
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+    cur = conn.cursor()
+    cur.execute('''
+                        DELETE FROM questionstest WHERE IDQuestion  = %s''',
+                (sup_id,))
+    conn.commit()
+    conn.close()
+    flash("Votre question a été supprimer!", 'warning')
+    return redirect(url_for('detail_question'))
+
+
+@app.route('/Modif_question/<int:mod_id>', methods=['GET', 'POST'])
+def Modif_question(mod_id):
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+    cur = conn.cursor()
+    if request.method == 'POST':
+        nom_question = request.form['nom_question']
+        Description = request.form['Description']
+        Choix1 = request.form['Choix1']
+        Choix2 = request.form['Choix2']
+        Choix3 = request.form['Choix3']
+        Choix4 = request.form['Choix4']
+        test = request.form['test']
+
+        # Traitement de l'image
+        image = request.files['image']
+        if image:
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['QUESTION_FOLDER'], filename))
+        else:
+            filename = None
+
+        cur.execute('''
+                UPDATE questionstest SET Nom_test=?, Description=?, Choix1=?, Choix2=?, Choix3=?, Choix4=?, image=? WHERE Num_produit =?''',
+                    (nom_question, Description, Choix1, Choix2, Choix3, Choix4, test, filename, mod_id))
+        conn.commit()
+        conn.close()
+        flash("Votre question a été Modifiée!", 'succes')
+        return redirect(url_for('detail_question'))
+    mod_id = int(mod_id)
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM question WHERE id_question  = %s", (mod_id,))
+    data = cur.fetchone()
+    return render_template(".admin/Modif_question.html", data_question=data)
 @app.route('/result/')
 def result():
     return render_template('./users/test/result.html')
@@ -319,13 +482,44 @@ def defeat():
 def category():
     return render_template("./category.html")
 
-@app.route("/mode_paiement/")
+@app.route("/mode_paiement/", methods=["GET","POST"])
 def mode_paiement():
+
     return render_template('./users/mode_paiement.html')
+
+
+@app.route('/update_progression', methods=['POST'])
+def update_progression():
+    data = request.get_json()
+    current_course_id = data['currentCourseId']
+    utilisateur_id = session['user'][0]
+
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
+
+    # Mettez à jour la progression pour l'utilisateur et le cours actuel
+    cursor.execute("UPDATE progression SET Statut='lu' WHERE utilisateur_id=%s AND cours_id=%s",
+                   (utilisateur_id, current_course_id))
+
+    connection.commit()  # N'oubliez pas de valider la transaction
+
+    return jsonify({'status': 'success'})
+
+
 
 @app.route("/view_test/")
 def view_test():
-    return render_template('./admin/view_test.html')
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM  testsmodule")
+    test = cursor.fetchall()
+    return render_template('./admin/view_test.html',test = test)
 
 @app.route("/view_module/")
 def view_module():
@@ -382,6 +576,58 @@ def add_module():
             flash(f"Le module: {IDModule}: {NomModule} a été ajouté avec succès", 'success')
     return render_template('./admin/add_module.html', title="add_module", categorie=cat)
 
+
+@app.route("/edit_module/<string:IdModule>", methods=['POST', 'GET'])
+def edit_module(IdModule):
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
+
+    if request.method == 'POST':
+        NomModule = request.form.get('NomModule')
+        categorie = request.form.getlist("Categorie[]")
+        image = request.files['image']
+        if image:
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['TEST_FOLDER'], filename))
+        else:
+            filename = None
+        cursor = connection.cursor()
+        # Utilisez %s pour les substitutions de paramètres
+        cursor.execute("UPDATE modulesenseignes SET NomModule=%s,image=%s WHERE IdModule=%s",
+                       (NomModule, filename, IdModule,))
+        connection.commit()
+
+        flash(f"Le module n°{IdModule} a été modifié avec succès.")
+        return redirect(url_for("view_module"))
+
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM modulesenseignes WHERE IdModule=%s", (IdModule,))
+    data = cursor.fetchone()
+    print(data)
+    cursor.close()
+    connection.close()
+    return render_template("./admin/edit_module.html", data=data)
+
+@app.route('/delete_module/<int:id_module>', methods=["GET","POST"])
+def delete_module(id_module):
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM modulesenseignes where IDModule=%s",(id_module,))
+    module = cursor.fetchone()
+    if request.method == "POST":
+        cursor.execute("DELETE FROM modulesenseignes WHERE IDModule=%s",(id_module,))
+        cursor.connection.commit()
+        connection.close()
+        flash(f"Le module {module[0]} a bien été supprimé", "succes")
+        return redirect(url_for("view_module"))
+
+    return render_template("./admin/delete_module.html",data=module)
 @app.route("/add_cours/",methods=["POST", "GET"])
 def add_cours():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -406,6 +652,7 @@ def add_cours():
             print(cursor)
 
     return render_template('./admin/add_cours.html', module=module)
+<<<<<<< HEAD
 
 @app.route("/modifier_add_cours/<string:id_cours>",methods=["POST", "GET"])
 def modifier_add_cours(id_cours):
@@ -450,6 +697,48 @@ def suprimer_add_cours(id_cours):
 
 @app.route("/view_cours/")
 def view_cours():
+=======
+@app.route("/view_cours/<int:module_id>")
+def view_cours(module_id):
+    if ((not session.get("user"))):
+        return redirect(url_for('login'))
+    else:
+        connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                     user=app.config['MYSQL_USER'],
+                                     password=app.config['MYSQL_PASSWORD'],
+                                     database=app.config['MYSQL_DB'])
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM modulesenseignes ")
+        data = cursor.fetchall()
+        cursor.execute("Select * from cours Where IDModule = %s order by IDCours",(module_id,))
+
+        cours = cursor.fetchall()
+        cursor.execute("SELECT * FROM progression WHERE module_id=%s", (module_id,))
+        nbr=cursor.fetchall()
+        nbr = len(nbr)
+        cursor.execute("SELECT * FROM progression WHERE module_id=%s and Statut='lu'", (module_id,))
+        nb_lu=cursor.fetchall()
+        nb_lu = len(nb_lu)
+        nbre = ((nb_lu*100)/nbr)
+        print(nbre)
+        for row in cours:
+            # Vérifiez si l'entrée existe déjà dans la table "progression"
+            cursor.execute("SELECT * FROM progression WHERE utilisateur_id = %s AND module_id = %s AND cours_id = %s",
+                           (session['user'][0], module_id, row[0]))
+            existing_entry = cursor.fetchone()
+
+            if not existing_entry:
+                # Si l'entrée n'existe pas, insérez-la
+                cursor.execute(
+                    "INSERT INTO progression (id, utilisateur_id, module_id, cours_id, date_consultation) VALUES (%s, %s, %s, %s, %s)",
+                    (None, session['user'][0], module_id, row[0], datetime.now()))
+
+        return render_template("./admin/view_cours.html", courses = cours, nbr=nbre, data=data)
+
+
+@app.route("/admin_cours/")
+def admin_cours():
+>>>>>>> 7a6942de3186ec94c3acd41351507d1b838b0497
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
                                  user=app.config['MYSQL_USER'],
                                  password=app.config['MYSQL_PASSWORD'],
@@ -457,8 +746,39 @@ def view_cours():
     cursor = connection.cursor()
     cursor.execute("Select * from cours")
     cours = cursor.fetchall()
-    return render_template("./admin/view_cours.html", courses = cours)
+    return render_template("./admin/admin_cours.html", courses = cours)
+@app.route("/modifier_add_cours/<string:id_cours>",methods=["POST", "GET"])
+def modifier_add_cours(id_cours):
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
+    cursor.execute("select * from cours WHERE IDCours = %s", (id_cours,))
+    data = cursor.fetchone()
+    cursor.execute("select* from modulesenseignes")
+    cour_modules = cursor.fetchall()
+    if request.method == "POST":
+        titre = request.form["titre"]
+        modules = request.form["module"]
+        contenu = request.form["contenu"]
+        print([titre, modules, contenu])
+        cursor.execute('''
+                       UPDATE cours
+                       SET IDCours=%s, IDModule=%s,TitreCours=%s,Contenu=%s
+                       WHERE IDCours = %s''', (id_cours, modules, titre, contenu, id_cours))
+        cursor.connection.commit()
+        return redirect(url_for('admin_cours'))
+    return render_template('./admin/modifier_add_cours.html', data=data, cour_modules=cour_modules)
+@app.route("/suprimer_add_cours/<string:id_cours>",methods=["POST", "GET"])
+def suprimer_add_cours(id_cours):
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
 
+<<<<<<< HEAD
 @app.route("/admin_cours/")
 def admin_cours():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -470,6 +790,14 @@ def admin_cours():
     cours = cursor.fetchall()
     return render_template("./admin/admin_cours.html", courses = cours)
 
+=======
+    cursor.execute("DELETE FROM cours WHERE IDCours = %s", (id_cours,))
+    connection.commit()
+
+    connection.close()
+
+    return redirect(url_for("admin_cours"))
+>>>>>>> 7a6942de3186ec94c3acd41351507d1b838b0497
 @app.route("/add_test/", methods=["post", "GET"])
 def add_test():
     conn = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -500,10 +828,99 @@ def add_test():
         conn.close()
         flash("Votre demande a été envoyé!", 'succes')
     return render_template('./admin/add_test.html', data_test=data_module)
+@app.route("/modifier_test/<int:test_id>", methods=["GET", "POST"])
+def modifier_test(test_id):
+    conn = pymysql.connect(
+        host=app.config['MYSQL_HOST'],
+        user=app.config['MYSQL_USER'],
+        password=app.config['MYSQL_PASSWORD'],
+        database=app.config['MYSQL_DB']
+    )
+    cur = conn.cursor()
 
+    # Récupérer les données du test existant et de son module concerné
+    cur.execute("SELECT * FROM testsmodule WHERE IDTest=%s", (test_id,))
+    test_data = cur.fetchone()
+
+    # Récupérer les modules pour l'affichage dans le formulaire
+    cur.execute("SELECT * FROM modulesenseignes")
+    data_module = cur.fetchall()
+
+    if request.method == 'POST':
+        nom_test = request.form['nom_test']
+        id_module = request.form['module']
+
+        # Traitement de l'image
+        image = request.files['image']
+        if image:
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['TEST_FOLDER'], filename))
+        else:
+            filename = None
+
+        # Mettre à jour les données du test
+        cur.execute('''
+            UPDATE testsmodule 
+            SET IDModule=%s, NomTest=%s, image=%s
+            WHERE IDTest=%s
+        ''', (id_module, nom_test, filename, test_id))
+
+        conn.commit()
+        conn.close()
+        flash("Le test a été modifié avec succès!", 'success')
+        return redirect(url_for('view_test'))
+
+    conn.close()
+    return render_template('./admin/modifier_test.html', data_test=data_module, data=test_data)
+
+
+########################## GESTION DE LA SUPPRESSION D'UN TEST AJOUTE################################
+
+@app.route("/supprimer_test/<int:test_id>", methods=["GET", "POST"])
+def supprimer_test(test_id):
+    conn = pymysql.connect(
+        host=app.config['MYSQL_HOST'],
+        user=app.config['MYSQL_USER'],
+        password=app.config['MYSQL_PASSWORD'],
+        database=app.config['MYSQL_DB']
+    )
+    cur = conn.cursor()
+
+    # Récupérer les données du test existant
+    cur.execute("SELECT * FROM testsmodule WHERE IDTest=%s", (test_id,))
+    test_data = cur.fetchone()
+
+    if request.method == 'POST':
+        # Supprimer le test de la base de données
+        cur.execute("DELETE FROM testsmodule WHERE IDTest=%s", (test_id,))
+
+        conn.commit()
+        conn.close()
+        flash("Le test a été supprimé avec succès!", 'success')
+        return redirect(url_for('view_test'))
+
+    conn.close()
+    return render_template('./admin/supprimer_test.html', data=test_data)
+@app.route("/add_auto/")
+def add_auto():
+    return render_template("admin/form_autoecole.html")
+@app.route("/view_auto/")
+def view_auto():
+    return render_template("admin/autoecole.html")
 @app.route("/user_sidbar/")
 def user_sidbar():
-    return render_template("./users/user_sidbar.html")
+    conn = pymysql.connect(
+        host=app.config['MYSQL_HOST'],
+        user=app.config['MYSQL_USER'],
+        password=app.config['MYSQL_PASSWORD'],
+        database=app.config['MYSQL_DB']
+    )
+    cur = conn.cursor()
+
+    # Récupérer les données du test existant
+    cur.execute("SELECT * FROM modules ")
+    data = cur.fetchall()
+    return render_template("./users/user_sidbar.html", data = data)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)

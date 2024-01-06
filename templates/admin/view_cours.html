@@ -1,96 +1,116 @@
-{% extends './admin/main.html' %}
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours et Navigation</title> -->
+    {% extends './admin/main.html' %}
+    {% block content %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Autour+One&display=swap');
+        .home{
+            height: 100vh !important;
+            background-color: transparent;
+        }
+        .course-content {
+            font-family: "autour one";
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .content-page h2{
+            text-decoration: underline;
+            margin-bottom: 50px;
+        }
+        .content-page {
+            text-align: center;
+            display: none;
+            width: 80%;
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            background-color: #fff;
+            height: 70vh;
+        }
 
-{% block content %}
+        .content-page.active {
+            display: block;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-around;
+
+            margin-top: 20px;
+        }
+
+        button {
+            font-family: "autour one";
+            padding: 10px;
+            cursor: pointer;
+            background-color: #08D48E;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+        }
+        button:disabled {
+            background-color: #ccc; /* Couleur grise pour les boutons désactivés */
+            cursor: not-allowed; /* Curseur "non autorisé" pour indiquer que le bouton est désactivé */
+        }
+        .progress-bar-container {
+            width: 80%;
+            background-color: #f0f0f0;
+            height: 20px;
+            margin-top: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-left:10% ;
+        }
+    
+        .progress-bar {
+            height: 100%;
+            background-color: #08D48E;
+            width: 0;
+            transition: width 0.3s ease-in-out;
+        }
+    </style>
+<!-- </head>
+<body> -->
+  
+    
 <section class="home">
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar" style="width: {{nbr}}%;"></div>
+        {{nbr}}
+    </div>
 <div class="course-content ">
-    {% for course in courses %}
-    <div id="page{{ course.0 }}" class="content-page">
-        <h2>{{ course.2 }}</h2>
-        <p>{{ course.3 }}</p>
+    {% for cours in courses %}
+    <div id="page{{loop.index}}"  class="content-page active" data-course-id="{{ cours.0 }}">
+        <h2>{{cours.2}}</h2>
+        <p>{{cours.3}}</p>
     </div>
-    {% endfor %}
-
-
+    {%endfor%}
+  
+    <!-- Ajoutez d'autres cours selon vos besoins -->
 </div>
-    <div class="navigation-buttons">
-        <button id="prevButton">Précédent</button>
-        <button id="nextButton">Suivant</button>
-    </div>
+
+<div class="navigation-buttons">
+    <button id="prevButton" onclick="goToPreviousPage()">Précédent</button>
+    <button id="nextButton" onclick="goToNextPage()">Suivant</button>
+</div>
 </section>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Autour+One&display=swap');
-</style>
-
-<style>
-    .course-content {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 80vh;
-    }
-
-    .content-page h2 {
-        text-decoration:underline;
-        margin-top:10px;
-        font-family: 'Autour One';
-        text-align: center;
-    }
-
-    .content-page p {
-         line-height: 1.5;
-        position: relative;
-        top: 10%;
-        text-align:center;
-        white-space: wrap;
-       font-size:1.05rem;
-       font-family:'Autour One';
-    }
-
-    .content-page {
-        position: absolute;
-        background-color: #fff;
-        height: 70%;
-        display: none;
-        width: 80%;
-        left: 10%;
-        top: 20%;
-        box-sizing:border-box;
-
-    }
-
-    .navigation-buttons {
-        display:flex;
-        justify-content:center;
-        gap:20%;
-    }
-
-    button {
-        padding: 10px;
-        margin: 0 10px;
-        cursor: pointer;
-        width:100px;
-        background-color:#08D48E;
-        border:none;
-        border-radius:10px;
-        color:#fff;
-        height:50px;
-    }
-</style>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    
     let currentPage = 1;
-    const totalPages = {{ courses|length }};
+    const totalPages = document.querySelectorAll('.content-page').length;
 
     function showPage(pageNumber) {
         document.querySelectorAll('.content-page').forEach(function (page) {
-            page.style.display = 'none';
+            page.classList.remove('active');
         });
 
-        document.getElementById('page' + pageNumber).style.display = 'block';
+        document.getElementById('page' + pageNumber).classList.add('active');
     }
 
     function updateButtons() {
@@ -111,16 +131,42 @@
             currentPage++;
             showPage(currentPage);
             updateButtons();
+          // Obtenez l'ID du cours à partir de l'élément actuel
+        const currentCourseId = document.getElementById('page' + currentPage).dataset.courseId;
+        // Ajoutez cette condition pour vérifier si l'ID n'est pas vide
+        if (currentCourseId.trim() !== '') {
+            updateProgression(currentCourseId);
+        } else {
+            console.error('L\'ID du cours est vide.');
+        }
         }
     }
 
     showPage(currentPage);
     updateButtons();
-
-    document.getElementById('prevButton').addEventListener('click', goToPreviousPage);
-    document.getElementById('nextButton').addEventListener('click', goToNextPage);
-});
-
+    function updateProgression(courseId) {
+        // Utilisez XMLHttpRequest ou fetch pour envoyer une requête au serveur Flask
+        // Vous devrez définir une route Flask pour gérer cette mise à jour
+        fetch('/update_progression', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ currentCourseId: courseId }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Traitez la réponse si nécessaire
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error('Erreur lors de la mise à jour de la progression:', error);
+            });
+    }
+    
 
 </script>
 {% endblock %}
+
+<!-- </body>
+</html> -->

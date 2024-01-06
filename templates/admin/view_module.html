@@ -13,10 +13,10 @@
           <h3>Module{{loop.index}} </h3>
           <p>{{element.1}}</p>
           <div class="buttons-container" id="buttons-container">
-            <a href="#" class="delete-button"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a>
-            <a href="{{ url_for('view_cours')}}" class="delete-button"><i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i></a>
-            <a href="#" class="edit-button"><i class="fa-regular fa-pen-to-square" style="color: #2e8d1b;"></i></a>
-            </div>
+            <a href="/delete_module/{{element.0}}" class="delete-button"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a>
+            <a href="/view_cours/{{ element.0 }}" class="delete-button"><i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i></a>
+            <a href="/edit_module/{{element.0}}" class="edit-button"><i class="fa-regular fa-pen-to-square" style="color: #2e8d1b;"></i></a>
+          </div>
         </div>
         {% endfor %}
 

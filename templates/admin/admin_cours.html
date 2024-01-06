@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "./dashbord/base.html" %}
 {% block content %}
 <section class="main home ">
@@ -38,4 +39,46 @@
       };
   </script>
 
+=======
+{% extends "./dashbord/base.html" %}
+{% block content %}
+<section class="main home ">
+      <div class="main-top">
+        <h1>Modules</h1>
+        <button><a href="{{ url_for('add_module')}}">Ajouter</a></button>
+      </div>
+     
+      <div class="main-skills main-home-section">
+        {% for element in courses %}
+        <div class="card">
+          <i class="fas fa-laptop-code"></i>
+          <h3>Cours{{loop.index}} </h3>
+          <p>{{element.2}}</p>
+          <div class="buttons-container" id="buttons-container">
+            <a href="/suprimer_add_cours/{{element.0}}" class="delete-button"><i class="fa-regular fa-trash-can" style="color: #e01f1f;"></i></a>
+            <a href="{{ url_for('view_cours')}}" class="delete-button"><i class="fa-regular fa-eye-slash" style="color: #ffffff;"></i></a>
+            <a href="/modifier_add_cours/{{element.0}}" class="edit-button"><i class="fa-regular fa-pen-to-square" style="color: #2e8d1b;"></i></a>
+            </div>
+        </div>
+        {% endfor %}    
+
+      </div>
+     
+    </section>
+    <script>
+      // Attendre 5 secondes après le chargement de la page
+      window.onload = function() {
+          // Sélectionner tous les éléments avec la classe 'flash'
+          var flashElements = document.querySelectorAll('.flash');
+  
+          flashElements.forEach(function(flashElement) {
+              // Définir un délai de 5 secondes avant de masquer l'élément
+              setTimeout(function(){
+                  flashElement.style.display = 'none'; // ou flashElement.parentNode.removeChild(flashElement) pour le supprimer complètement
+              }, 5000); // 5000 millisecondes = 5 secondes
+          });
+      };
+  </script>
+
+>>>>>>> 7a6942de3186ec94c3acd41351507d1b838b0497
 {% endblock %}

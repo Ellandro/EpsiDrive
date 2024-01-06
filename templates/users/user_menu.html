@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="dashboard.css">
+  <title>Dashboard Accordion Menu</title>
+</head>
+<body>
+<style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.dashboard-menu {
+  width: 300px;
+}
+
+.menu-section-btn {
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  background-color: #2c3e50;
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.menu-sub-items {
+  display: none;
+  padding: 5px 0;
+  background-color: #34495e;
+}
+
+.menu-sub-items a {
+  display: block;
+  padding: 8px 15px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.menu-sub-items a:hover {
+  background-color: #2c3e50;
+}
+
+.menu-section.active .menu-sub-items {
+  display: block;
+}
+/* Ajoutez ce style pour l'icône flèche */
+.arrow-icon {
+  float: right;
+}
+
+/* Mettez à jour le style de l'icône pour refléter les changements d'état */
+.menu-section.active .arrow-icon {
+  transform: rotate(180deg);
+}
+
+</style>
+  <div class="dashboard-menu">
+    <div class="menu-section">
+      <button class="menu-section-btn">
+          Section 1
+          <span class="arrow-icon">&#9662;</span>
+      </button>
+      <div class="menu-sub-items">
+        <a href="#">Item 1.1</a>
+        <a href="#">Item 1.2</a>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <button class="menu-section-btn">
+          Section 2
+          <span class="arrow-icon">&#9662;</span>
+      </button>
+      <div class="menu-sub-items">
+        <a href="#">Item 2.1</a>
+        <a href="#">Item 2.2</a>
+      </div>
+    </div>
+
+    <!-- Add more sections as needed -->
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+  const menuSections = document.querySelectorAll('.menu-section');
+
+  menuSections.forEach(function (section) {
+    const btn = section.querySelector('.menu-section-btn');
+
+    btn.addEventListener('click', function () {
+      menuSections.forEach(function (otherSection) {
+        if (otherSection !== section && otherSection.classList.contains('active')) {
+          otherSection.classList.remove('active');
+        }
+      });
+
+      section.classList.toggle('active');
+    });
+  });
+});
+
+  </script>
+</body>
+</html>

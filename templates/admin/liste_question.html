@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter_Questions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300i,400,400i,500,600,700,800%7CLora:400,400i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <section class="container">
+        {% for row in data_question %}
+            <form method="POST" class="form" action="{{ url_for('liste_question', test_id=row.0) }}" enctype="multipart/form-data">
+                <div class="input-box">
+                    <label class="label">Test</label>
+                    <p class="value">{{ row.1 }}</p> <!-- row.1 correspond maintenant au Nom_test -->
+                </div>
+                <div class="input-box">
+                    <label class="label">Nom</label>
+                    <p class="value">{{ row.2 }}</p> <!-- row.2 correspond toujours au Nom de la question -->
+                </div>
+                <div class="input-box">
+                    <label class="label">Description</label>
+                    <p class="value">{{ row.3 }}</p>
+                </div>
+                <div class="input-box">
+                    <label class="label">Choix 1</label>
+                    <p class="value">{{ row.4 }}</p>
+                </div>
+                <div class="input-box">
+                    <label class="label">Choix 2</label>
+                    <p class="value">{{ row.5 }}</p>
+                </div>
+                <div class="input-box">
+                    <label class="label">Choix 3</label>
+                    <p class="value">{{ row.6 }}</p>
+                </div>
+                <div class="input-box">
+                    <label class="label">Choix 4</label>
+                    <p class="value">{{ row.7 }}</p>
+                </div>
+                <div class="input-box">
+                    <label class="label">Image</label>
+                    <p class="value">{{ row.8 }}</p> <!-- row.8 correspond à l'image -->
+                </div>
+                <div class="btn">
+                    <button class="red"><a href="{{ url_for('liste_test')}}">retour</a></button>
+                    <button ><a href="{{ url_for('detail_question')}}">Liste Question</a></button>
+                </div>
+            </form>
+        {% endfor %}
+    </section>
+</body>
+</html>

@@ -1,24 +1,38 @@
 {% extends "./admin/main.html" %}
+
 {% block content %}
 <div class="container home">
-		<div class="contact-box">
-			<div class="left"></div>
-			<div class="right">
-				<form action="{{ url_for('add_cours') }}" method="post">
-				<h2>Contact Us</h2>
-				<input type="text" class="field" placeholder="Titre" name="titre">
-				<select name="module"   class="field">
-					 <option value="">----------------</option>
-					{% for module in module %}
-					<option value="{{ module[0] }}">	{{ module[1] }}</option>
-					{% endfor %}
-				</select>
-				<textarea placeholder="Contenu" class="field" name="contenu"></textarea>
-				<button class="btn" type="submit">Enregistrer</button>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div class="contact-box">
+        
+        <div class="right">
+            <form action="{{ url_for('add_cours') }}" method="post">
+                <h2>Ajouter un Cours</h2>
+                <div class="form-group">
+                    <label for="titre">Titre :</label>
+                    <input type="text" id="titre" class="field" placeholder="Entrez le titre du cours" name="titre" required>
+                </div>
+                <div class="form-group">
+                    <label for="module">Module :</label>
+                    <select id="module" name="module" class="field" required>
+                        <option value="" disabled selected>Choisissez un module</option>
+                        {% for module in module %}
+                            <option value="{{ module[0] }}">{{ module[1] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="contenu">Contenu :</label>
+                    <textarea id="contenu" placeholder="Entrez le contenu du cours" class="field" name="contenu" required></textarea>
+                </div>
+                <button class="btn" type="submit">Enregistrer</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
 	<style>
 	.container{
 	position: relative;
@@ -31,7 +45,7 @@
 	position: absolute;
     top: 0;
     top: 0;
-    left: 250px;
+
     height: 100vh;
     width: calc(100% - 250px);
     background-color: var(--body-color);
@@ -104,6 +118,7 @@ h2:after{
 
 textarea{
 	min-height: 150px;
+	width:100%;
 }
 
 .btn{
