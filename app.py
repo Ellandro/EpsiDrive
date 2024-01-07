@@ -345,6 +345,18 @@ def liste_question(test_id):
     conn.close()
     return render_template('liste_question.html', data_question=data)
 
+@app.route('/autoecole/')
+def autoecole():
+   
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+    cursor = conn.cursor()
+    cursor.execute('SELECT * from autoecoles')
+    autoecole = cursor.fetchall()
+    return render_template('autoecole.html', liste = autoecole)
+
 
 @app.route('/detail_question/<int:idtest>', methods=['GET', 'POST'])
 def detail_question(idtest):
@@ -652,7 +664,7 @@ def add_cours():
             print(cursor)
 
     return render_template('./admin/add_cours.html', module=module)
-<<<<<<< HEAD
+
 
 @app.route("/modifier_add_cours/<string:id_cours>",methods=["POST", "GET"])
 def modifier_add_cours(id_cours):
@@ -695,9 +707,9 @@ def suprimer_add_cours(id_cours):
     
 
 
-@app.route("/view_cours/")
-def view_cours():
-=======
+# @app.route("/view_cours/")
+# def view_cours():
+
 @app.route("/view_cours/<int:module_id>")
 def view_cours(module_id):
     if ((not session.get("user"))):
@@ -738,7 +750,6 @@ def view_cours(module_id):
 
 @app.route("/admin_cours/")
 def admin_cours():
->>>>>>> 7a6942de3186ec94c3acd41351507d1b838b0497
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
                                  user=app.config['MYSQL_USER'],
                                  password=app.config['MYSQL_PASSWORD'],
@@ -778,7 +789,6 @@ def suprimer_add_cours(id_cours):
                                  database=app.config['MYSQL_DB'])
     cursor = connection.cursor()
 
-<<<<<<< HEAD
 @app.route("/admin_cours/")
 def admin_cours():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -790,14 +800,13 @@ def admin_cours():
     cours = cursor.fetchall()
     return render_template("./admin/admin_cours.html", courses = cours)
 
-=======
+
     cursor.execute("DELETE FROM cours WHERE IDCours = %s", (id_cours,))
     connection.commit()
 
     connection.close()
 
     return redirect(url_for("admin_cours"))
->>>>>>> 7a6942de3186ec94c3acd41351507d1b838b0497
 @app.route("/add_test/", methods=["post", "GET"])
 def add_test():
     conn = pymysql.connect(host=app.config['MYSQL_HOST'],
