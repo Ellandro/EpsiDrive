@@ -1,7 +1,7 @@
+from flask import redirect, url_for, flash
 import os
 import pdfkit
 from datetime import datetime
-
 import pymysql
 from flask import Flask, render_template, redirect, flash, url_for, request, session,jsonify
 from flask_bcrypt import Bcrypt
@@ -14,10 +14,13 @@ from flask import Flask, request, url_for
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
+<<<<<<< Updated upstream
 import paydunya
 from paydunya import Store, invoice
 
 
+=======
+>>>>>>> Stashed changes
 
 app = Flask(__name__)
 # ? Les informations pour la connexion à ma db
@@ -31,15 +34,16 @@ app.config['TEST_FOLDER'] = './static/test_photo'
 app.config['QUESTION_FOLDER'] = './static/question_photo'
 
 
-
 app.secret_key = '53d79e2d442ce46fe29409f0940345866d6dcc8e25ae10540b125bfadc51553a'
 bcrypt = Bcrypt(app)
 
 mail = Mail(app)
 s = URLSafeTimedSerializer('Thisisasecret!')
+
+
 @app.route("/")
 def home():
-    connection = pymysql.connect(host=app.config['MYSQL_HOST'] ,
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
                                  user=app.config['MYSQL_USER'],
                                  password=app.config['MYSQL_PASSWORD'],
                                  database=app.config['MYSQL_DB'])
@@ -50,28 +54,32 @@ def home():
 app.config['UPLOAD_FOLDER'] = 'static/Images'
 
 
-
-
-
 class UploadFileForm(FlaskForm):
     file = FileField("File", validators=[InputRequired()])
     submit = SubmitField("Upload File")
 
 
-@app.route('/upload_file/', methods=['GET',"POST"])
+@app.route('/upload_file/', methods=['GET', "POST"])
 def upload_file():
     form = UploadFileForm()
     if form.validate_on_submit():
-        file = form.file.data # First grab the file
-        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'],secure_filename(file.filename))) # Then save the file
+        file = form.file.data  # First grab the file
+        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                  # Then save the file
+                               app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
         return "File has been uploaded."
     return render_template('upload_file.html', form=form)
+
 
 @app.route("/menu/")
 def sidebar():
     return render_template('./dashbord/base.html')
 
-@app.route('/user/')
+# @app.route('/user/')
+# def user():
+
+
+@app.route("/user/")
 def user():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
                                  user=app.config['MYSQL_USER'],
@@ -90,9 +98,12 @@ def user():
     print(percent)
     return render_template('./users/interface_users.html', module=modle, percent=percent)
 
+
 @app.route('/test/')
 def test():
     return render_template('./users/test/test.html')
+
+
 @app.route('/register/', methods=["POST", "GET"])
 def register():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -101,18 +112,18 @@ def register():
                                  database=app.config['MYSQL_DB'])
     cursor = connection.cursor()
     if request.method == "POST":
-       if(request.form["prenom"]=="" or
-           request.form["nom"]==""or
-           request.form["jour"]=="" or
-           request.form['mois']=="" or
-           request.form["anne"]=="" or
-           request.form['tel']==""or
-           request.form['mail']=="" or
-           request.form['password']=="" or
-           request.form['pass']==""):
-           # Afficher un message flash
-           flash("Veuillez remplir les champs svp", category="success")
-       else:
+        if (request.form["prenom"] == "" or
+                request.form["nom"] == "" or
+                request.form["jour"] == "" or
+                request.form['mois'] == "" or
+                request.form["anne"] == "" or
+                request.form['tel'] == "" or
+                request.form['mail'] == "" or
+                request.form['password'] == "" or
+                request.form['pass'] == ""):
+            # Afficher un message flash
+            flash("Veuillez remplir les champs svp", category="success")
+        else:
             prenom = request.form["prenom"]
             nom = request.form["nom"]
             jour = request.form["jour"]
@@ -122,29 +133,33 @@ def register():
             mail = request.form['mail']
             password = request.form['pass']
             mdp = request.form['password']
-            if(mdp!=password):
+            if (mdp != password):
                 flash("Mot de passe non conforme!")
             else:
                 date_complete_str = f"{annee}-{mois.zfill(2)}-{jour.zfill(2)}"
 
                 # Convertissez la chaîne en objet datetime
-                date_complete = datetime.strptime(date_complete_str, "%Y-%m-%d").date()
+                date_complete = datetime.strptime(
+                    date_complete_str, "%Y-%m-%d").date()
                 print(date_complete)
                 mdp = bcrypt.generate_password_hash(mdp)
                 print(mdp)
                 select = "SELECT * FROM utilisateurs where Email=%s"
-                cursor.execute(select,(mail,))
+                cursor.execute(select, (mail,))
                 user = cursor.fetchone()
-                if(user):
-                   flash("ce mail existe deja !")
+                if (user):
+                    flash("ce mail existe deja !")
                 else:
                     insert = "INSERT INTO utilisateurs (Prenom , Nom, Email,Telephone,Date_naissance, MotDePasse) value(%s,%s, %s, %s, %s, %s)"
-                    cursor.execute(insert, (prenom, nom, mail, tel, date_complete, mdp))
+                    cursor.execute(
+                        insert, (prenom, nom, mail, tel, date_complete, mdp))
                     cursor.connection.commit()
                     session['logged_in'] = True
                     return redirect(url_for('home'))
 
     return render_template('./register.html')
+
+
 @app.route('/login/', methods=['POST', 'GET'])
 def login():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -152,31 +167,37 @@ def login():
                                  password=app.config['MYSQL_PASSWORD'],
                                  database=app.config['MYSQL_DB'])
     cursor = connection.cursor()
-    if(request.method=="POST"):
+    if (request.method == "POST"):
         mail = request.form["mail"]
         password = request.form["password"]
-        if(mail=="" or password==""):
+        if (mail == "" or password == ""):
             flash("Veuillez saisir les champs svp!!")
         else:
             select = "SELECT U.*, R.NomRole FROM utilisateurs U, roles R where U.IDRole=R.IDRole AND Email=%s"
-            cursor.execute(select,(mail,))
-            user=cursor.fetchone()
-            if(user):
-                if not bcrypt.check_password_hash(user[ 7], password):
+            cursor.execute(select, (mail,))
+            user = cursor.fetchone()
+            if (user):
+                if not bcrypt.check_password_hash(user[7], password):
                     # Le mot de passe fourni ne correspond pas au mot de passe haché dans la base de données
                     # Faites quelque chose ici, par exemple, afficher un message d'erreur ou rediriger l'utilisateur
                     flash("Mot de passe ou email incorrect")
                 else:
                     session['logged_in'] = True
+<<<<<<< Updated upstream
                     if(user[10]=="user"):
                         session['user']=user
+=======
+                    if (user[9] == "user"):
+                        session['user'] = user
+>>>>>>> Stashed changes
                         return redirect(url_for("user"))
                     else:
-                      session["admin"] = user
-                      print(user)
+                        session["admin"] = user
+                        print(user)
             else:
                 flash("Mot de passe ou Email inexistant")
     return render_template('./login.html')
+
 
 @app.route("/profil_user/")
 def profil_user():
@@ -190,12 +211,14 @@ def profil_user():
         return redirect(url_for("login"))
     else:
         select = "SELECT * FROM utilisateurs where IDUtilisateur=%s"
-        cursor.execute(select,(session["user"][0],))
+        cursor.execute(select, (session["user"][0],))
         profil = cursor.fetchone()
-        #print(profil[8])
+        # print(profil[8])
         return render_template("./users/profil_user.html", profil=profil)
-    
+
     # profil
+
+
 @app.route("/update_profil/", methods=["POST", "GET"])
 def update_profil():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -203,19 +226,20 @@ def update_profil():
                                  password=app.config['MYSQL_PASSWORD'],
                                  database=app.config['MYSQL_DB'])
     cursor = connection.cursor()
-    if request.method=="POST":
+    if request.method == "POST":
         name = request.form["nom"]
         username = request.form["prenom"]
         mail = request.form["mail"]
         id = session["user"][0]
         update = "UPDATE utilisateurs set IDUtilisateur=%s,Prenom=%s, Nom=%s, Email=%s WHERE IDUtilisateur=%s"
-        cursor.execute(update, (id, username, name, mail,id))
+        cursor.execute(update, (id, username, name, mail, id))
         cursor.connection.commit()
         select = "SELECT * FROM utilisateurs where IDUtilisateur=%s"
         cursor.execute(select, (session["user"][0],))
         profil = cursor.fetchone()
         print(profil[8])
         return render_template("./users/profil_user.html", profil=profil)
+
 
 @app.route("/edit_password/", methods=["POST", "GET"])
 def edit_password():
@@ -224,34 +248,37 @@ def edit_password():
                                  password=app.config['MYSQL_PASSWORD'],
                                  database=app.config['MYSQL_DB'])
     cursor = connection.cursor()
-    if (request.method=="POST"):
-        mdp=request.form["mdp"]
+    if (request.method == "POST"):
+        mdp = request.form["mdp"]
         new = request.form["new"]
         confirm = request.form["confirm"]
         select = "SELECT * FROM utilisateurs where IDUtilisateur=%s AND Email=%s"
-        cursor.execute(select, (session["user"][0],session["user"][4]))
+        cursor.execute(select, (session["user"][0], session["user"][4]))
         profil = cursor.fetchone()
-        if(profil):
+        if (profil):
             if not bcrypt.check_password_hash(profil[7], mdp):
                 flash("Mot de passe ou email incorrect", "errors")
                 return redirect(url_for('profil_user')+"#account-change-password")
             else:
-                if(new!=confirm):
+                if (new != confirm):
                     flash("Mot de passe non conforme")
                 else:
                     new = bcrypt.generate_password_hash(new)
                     update = "UPDATE utilisateurs SET MotDePasse=%s where IDUtilisateur=%s"
-                    cursor.execute(update, (new,session['user'][0]))
+                    cursor.execute(update, (new, session['user'][0]))
                     cursor.connection.commit()
                     return redirect(url_for('profil_user') + "#account-change-password")
     return redirect(url_for('profil_user')+"#account-change-password")
+
+
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-     if request.method == 'GET':
+    if request.method == 'GET':
         return '<form action="/" method="POST"><input name="email"><input type="submit"></form>'
         email = request.form['email']
         token = s.dumps(email, salt='email-confirm')
-        msg = Message('Confirm Email', sender='anthony@prettyprinted.com', recipients=[email])
+        msg = Message('Confirm Email',
+                      sender='anthony@prettyprinted.com', recipients=[email])
 
         link = url_for('confirm_email', token=token, _external=True)
 
@@ -269,9 +296,12 @@ def confirm_email(token):
     except SignatureExpired:
         return '<h1>The token is expired!</h1>'
     return '<h1>The token works!</h1>'
+
+
 @app.route('/file/')
 def file():
     return render_template('./users/file_upload.html')
+
 
 @app.route("/abonne/")
 def abonne():
@@ -312,9 +342,10 @@ def add_question():
             # Enregistrement dans la base de données
         cur.execute('''
                        INSERT INTO questionstest  VALUES (%s,%s, %s, %s, %s, %s, %s, %s, %s)
-                   ''', (None,test,nom_question, Description, Choix1, Choix2, Choix3, Choix4, filename))
+                   ''', (None, test, nom_question, Description, Choix1, Choix2, Choix3, Choix4, filename))
         conn.commit()
-        cur.execute("select * FROM questionstest where Nom_question = %s", (nom_question,))
+        cur.execute(
+            "select * FROM questionstest where Nom_question = %s", (nom_question,))
 
         id_question = cur.fetchone()
         id_question = id_question[0]
@@ -474,14 +505,17 @@ def Modif_question(mod_id):
 def result():
     return render_template('./users/test/result.html')
 
+
 @app.route('/defeat/')
 def defeat():
     return render_template("./users/test/defeat.html")
+
 
 @app.route("/category")
 def category():
     return render_template("./category.html")
 
+<<<<<<< Updated upstream
 @app.route("/mode_paiement/", methods=["GET","POST"])
 def mode_paiement():
 
@@ -510,6 +544,9 @@ def update_progression():
 
 
 
+=======
+######################     GESTION DE LA LISTE DES TESTS AJOUTES   #######################################
+>>>>>>> Stashed changes
 @app.route("/view_test/")
 def view_test():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -517,9 +554,16 @@ def view_test():
                                  password=app.config['MYSQL_PASSWORD'],
                                  database=app.config['MYSQL_DB'])
     cursor = connection.cursor()
+<<<<<<< Updated upstream
     cursor.execute("SELECT * FROM  testsmodule")
     test = cursor.fetchall()
     return render_template('./admin/view_test.html',test = test)
+=======
+    cursor.execute("SELECT * FROM testsmodule")
+    test = cursor.fetchall()
+    return render_template('./admin/view_test.html', test=test)
+
+>>>>>>> Stashed changes
 
 @app.route("/view_module/")
 def view_module():
@@ -531,7 +575,8 @@ def view_module():
     cursor.execute("SELECT * FROM  modulesenseignes")
     module = cursor.fetchall()
     print(module)
-    return render_template('./admin/view_module.html' ,module=module)
+    return render_template('./admin/view_module.html', module=module)
+
 
 @app.route("/add_module/" ,methods=["POST","GET"])
 def add_module():
@@ -585,6 +630,7 @@ def edit_module(IdModule):
                                  database=app.config['MYSQL_DB'])
     cursor = connection.cursor()
 
+<<<<<<< Updated upstream
     if request.method == 'POST':
         NomModule = request.form.get('NomModule')
         categorie = request.form.getlist("Categorie[]")
@@ -629,6 +675,10 @@ def delete_module(id_module):
 
     return render_template("./admin/delete_module.html",data=module)
 @app.route("/add_cours/",methods=["POST", "GET"])
+=======
+
+@app.route("/add_cours/", methods=["POST", "GET"])
+>>>>>>> Stashed changes
 def add_cours():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
                                  user=app.config['MYSQL_USER'],
@@ -637,21 +687,22 @@ def add_cours():
     cursor = connection.cursor()
     cursor.execute("select * from modulesenseignes")
     module = cursor.fetchall()
-    if(request.method=="POST"):
-        if(request.form["titre"]=="" or request.form["module"]=="" or request.form["contenu"]==""):
+    if (request.method == "POST"):
+        if (request.form["titre"] == "" or request.form["module"] == "" or request.form["contenu"] == ""):
             flash("Les ne doivent pas etre vide")
         else:
             titre = request.form["titre"]
             modules = request.form["module"]
             contenu = request.form["contenu"]
-            print([titre, modules,contenu])
+            print([titre, modules, contenu])
             insert = "INSERT INTO cours values(%s, %s, %s, %s)"
-            #cur = connection.cursor()
-            cursor.execute(insert,(None,modules,titre,contenu))
+            # cur = connection.cursor()
+            cursor.execute(insert, (None, modules, titre, contenu))
             cursor.connection.commit()
             print(cursor)
 
     return render_template('./admin/add_cours.html', module=module)
+<<<<<<< Updated upstream
 @app.route("/view_cours/<int:module_id>")
 def view_cours(module_id):
     if ((not session.get("user"))):
@@ -692,6 +743,12 @@ def view_cours(module_id):
 
 @app.route("/admin_cours/")
 def admin_cours():
+=======
+
+
+@app.route("/view_cours/")
+def view_cours():
+>>>>>>> Stashed changes
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
                                  user=app.config['MYSQL_USER'],
                                  password=app.config['MYSQL_PASSWORD'],
@@ -699,6 +756,7 @@ def admin_cours():
     cursor = connection.cursor()
     cursor.execute("Select * from cours")
     cours = cursor.fetchall()
+<<<<<<< Updated upstream
     return render_template("./admin/admin_cours.html", courses = cours)
 @app.route("/modifier_add_cours/<string:id_cours>",methods=["POST", "GET"])
 def modifier_add_cours(id_cours):
@@ -735,6 +793,10 @@ def suprimer_add_cours(id_cours):
     connection.commit()
 
     connection.close()
+=======
+    return render_template("./admin/view_cours.html", courses=cours)
+
+>>>>>>> Stashed changes
 
     return redirect(url_for("admin_cours"))
 @app.route("/add_test/", methods=["post", "GET"])
@@ -762,7 +824,7 @@ def add_test():
             # Enregistrement dans la base de données
         cur.execute('''
                        INSERT INTO testsmodule VALUES  (%s,%s, %s, %s)
-                   ''', (None, id_module,nom_test, filename))
+                   ''', (None, id_module, nom_test, filename))
         conn.commit()
         conn.close()
         flash("Votre demande a été envoyé!", 'succes')
@@ -789,6 +851,32 @@ def modifier_test(test_id):
         nom_test = request.form['nom_test']
         id_module = request.form['module']
 
+<<<<<<< Updated upstream
+=======
+################ GESTION et AFFICHAGE DE LA MODIFICATION D'UN TEST##########################
+@app.route("/modifier_test/<int:test_id>", methods=["GET", "POST"])
+def modifier_test(test_id):
+    conn = pymysql.connect(
+        host=app.config['MYSQL_HOST'],
+        user=app.config['MYSQL_USER'],
+        password=app.config['MYSQL_PASSWORD'],
+        database=app.config['MYSQL_DB']
+    )
+    cur = conn.cursor()
+
+    # Récupérer les données du test existant et de son module concerné
+    cur.execute("SELECT * FROM testsmodule WHERE IDTest=%s", (test_id,))
+    test_data = cur.fetchone()
+
+    # Récupérer les modules pour l'affichage dans le formulaire
+    cur.execute("SELECT * FROM modulesenseignes")
+    data_module = cur.fetchall()
+
+    if request.method == 'POST':
+        nom_test = request.form['nom_test']
+        id_module = request.form['module']
+
+>>>>>>> Stashed changes
         # Traitement de l'image
         image = request.files['image']
         if image:
@@ -840,12 +928,46 @@ def supprimer_test(test_id):
 
     conn.close()
     return render_template('./admin/supprimer_test.html', data=test_data)
+<<<<<<< Updated upstream
 @app.route("/add_auto/")
 def add_auto():
     return render_template("admin/form_autoecole.html")
 @app.route("/view_auto/")
 def view_auto():
     return render_template("admin/autoecole.html")
+=======
+
+
+###############"" GESTION DU MODE DE PAIEMENT ############################################
+@app.route("/mode_paiement/")
+def mode_paiement():
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM testsmodule")
+    test = cursor.fetchall()
+    # return render_template('./admin/view_test.html', test=test)
+    modes_paiement = ["Mobile Money", "Carte Bancaire"]
+    return render_template('./users/mode_paiement.html', modes_paiement=modes_paiement)
+
+
+@app.route("/process_paiement", methods=['POST'])
+def process_paiement():
+    numero_paiement = request.form['numero_de_paiement']
+    return redirect(url_for('confirmation', numero_paiement=numero_paiement))
+
+
+@app.route("/confirmation/<numero_paiement>")
+def confirmation(numero_paiement):
+    # Utilisez le numéro de paiement dans la page de confirmation
+    return render_template('confirmation.html', numero_paiement=numero_paiement)
+
+
+
+
+>>>>>>> Stashed changes
 @app.route("/user_sidbar/")
 def user_sidbar():
     conn = pymysql.connect(
@@ -861,6 +983,6 @@ def user_sidbar():
     data = cur.fetchall()
     return render_template("./users/user_sidbar.html", data = data)
 
+
 if __name__ == "__main__":
     app.run(debug=True, port=5001)
-

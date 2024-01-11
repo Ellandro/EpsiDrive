@@ -17,7 +17,7 @@ a{
 .contener-user-interface{
     background-color: white;
     width: 70%;
-    height: 100vh;
+    height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between; 
@@ -188,11 +188,12 @@ a{
 /* Affichage de la progression de l'utilisateur dans l'interface Users */
 .activite-pourcentage{
     width: 40%;
-    height: 100%;
+    height: 97%;
     display: flex;
 }
 
 
+<<<<<<< Updated upstream
 .circular {
     height: 70%;
     width: 70%;
@@ -227,135 +228,52 @@ a{
     z-index: 1;
     box-shadow: none;
 }
+=======
+ .outer-circle {
+     width: 200px;
+     height: 200px;
+    background-color: #77B7F2;
+     /* Couleur bleue pour le cercle extérieur */
+     border-radius: 50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     position: relative;
+ }
+>>>>>>> Stashed changes
 
-.circular .numb {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
+.inner-circle {
+     width: 60%;
+     height: 60%;
+     background-color: white; 
+     /* Couleur blanche pour le cercle intérieur */
+     border-radius: 50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     position: absolute;
+     color: green;
+     color: black;
     font-size: 18px;
-    font-weight: 500;
-    color: #4158d0;
+    font-weight: bold;   
 }
 
-.circular .bar {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background: #fff;
-    clip: rect(0px, 100px, 100px, 50px);
-}
 
-.circle .bar .progress {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-   
-    clip: rect(0px, 50px, 100px, 0px);
-}
-
-.circle .bar .progress,
-.dot span {
-    background: #4158d0;
-}
-
-.circle .left .progress {
-    z-index: 1;
-    animation: left 4s linear both;
-}
-
-@keyframes left {
-    100% {
-        transform: rotate(180deg);
-    }
-}
-
-.circle .right {
-    z-index: 3;
-    transform: rotate(180deg);
-}
-
-.circle .right .progress {
-    animation: right 4s linear both;
-    animation-delay: 4s;
-}
-
-@keyframes right {
-    100% {
-        transform: rotate(180deg);
-    }
-}
-
-.circle .dot {
-    z-index: 2;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 50%;
-    height: 10px;
-    margin-top: -5px;
-    animation: dot 8s linear both;
-    transform-origin: 0% 50%;
-}
-
-.circle .dot span {
-    position: absolute;
-    right: 0;
-    width: 10px;
-    height: 10px;
-    border-radius: 100%;
-}
-
-@keyframes dot {
-    0% {
-        transform: rotate(-90deg);
-    }
-
-    50% {
-        transform: rotate(90deg);
-        z-index: 4;
-    }
-
+<<<<<<< Updated upstream
     100% {
         transform: rotate(270deg);
         z-index: 4;
     }
 }
+=======
+>>>>>>> Stashed changes
 
-.progress-circle {
-    width: 200px;
-    height: 200px;
-    background-color: #eee;
-    border-radius: 50%;
-    position: relative;
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;  
 }
-
-.progress-circle::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-    background-color: #3498db;
-    /* Couleur de fond de la partie complétée */
-    transform-origin: 0 50%;
-    transform: rotate(calc(360 * var(--percent) / 100));
-    transition: transform 0.8s ease;
-}
-
-.progress-circle::after {
-    content: attr(data-percent) "%";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 24px;
-    color: #333;
-    font-weight: bold;
-}
-
 
 li{
     list-style: none;
@@ -502,6 +420,7 @@ footer .down .firsts .emoji img{
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 } */
+
 
 /* ########################################""midlle of principal site ############################" */
 
@@ -1330,9 +1249,12 @@ footer .down .firsts .emoji img{
 
 /* ################################### paiement part ##################################*/
 
+/* STYLE DE LA PARTIE MODE DE PAIEMENT CHOISI PAR L'UTILISATEUR */
+
+
 .paiement_contener{
     width: 100%;
-    height: 650px;
+    height: 750px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -1361,7 +1283,6 @@ footer .down .firsts .emoji img{
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-
 }
 
 .type_paiement{
@@ -1369,8 +1290,10 @@ footer .down .firsts .emoji img{
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
-
 }
+
+
+
 .choix_type_paiement{
     width: 35%;
     display: flex;
@@ -1401,9 +1324,15 @@ footer .down .firsts .emoji img{
     background-image: url('/static/Images/orange_money.jpg');
     background-repeat: no-repeat;
     background-position: center;
+
     background-size: 80%;
     width: 25%;
-    height: 100%;
+    height: 20%;
+
+    background-size: 80%; 
+    width: 25%;
+    height: 100%; 
+
     border: 2px solid grey;
     border-radius: 10px;
 }
@@ -1427,6 +1356,8 @@ footer .down .firsts .emoji img{
     border: 2px solid grey;
     border-radius: 10px;
 }
+
+
 /* ############################################################ */
 .numero_paiement{
   width: 100%;
@@ -1436,14 +1367,22 @@ footer .down .firsts .emoji img{
 .numero_paiement form  {
  justify-content: center;
  width: 100%;
+
+  width: 100%; 
+  /* height: 15%; /= */
+  display: flex;
+}
+.numero_paiement form  {
+ justify-content: center; 
+ width: 100%; 
+
 }
 .numero_paiement form input{
     width: 100%;
     height: 45%;
     border: 1px solid grey;
     display: flex;
-    justify-content: center;
-
+    justify-content: center; 
 }
 .numero_paiement form input ::placeholder{
     text-align: center;
@@ -1462,11 +1401,17 @@ footer .down .firsts .emoji img{
     /* background-color: rgb(77, 128, 0); */
 }
 
+
+
 .confirmer_paiement_avertis{
     width: 100%;
     height: 45%;
     font-display: flex;
+
     /* justify-content: center;
+
+    /* justify-content: center; 
+
     align-items: center; */
     text-align: center;
     padding-top: 20px ;

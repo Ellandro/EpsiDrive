@@ -386,13 +386,14 @@ body.dark .switch::before{
 
 .sidebar.close ~ .home{
     left: 78px;
-    height: 100vh;
+    /* height: 80vh; */
     width: calc(100% - 78px);
 }
 body.dark .home .text{
     color: var(--text-color);
 }
 
+<<<<<<< Updated upstream
 /* ################################# View abonnée ############################*/
 main.table {
     width: 82vw;
@@ -1072,3 +1073,5 @@ form
 }
 
 /* ################################### Fin module #################################*/
+=======
+>>>>>>> Stashed changes
