@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter_Questions</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300i,400,400i,500,600,700,800%7CLora:400,400i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <section class="container">
+          {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert-{{category}}" id="mes">{{message}}</div>
+                    {% endfor %}
+                    {% endif %}
+          {% endwith %}
+        <header>Ajouter Questions</header>
+        <form method="POST" class="form" action="{{url_for('modif_question_examens',mod_id=datas.0)}}">
+          <div class="input-box address">
+            <div class="column">
+              <label>Examen</label>
+              <div class="select-box">
+                <select name="Examen">
+                  {% for row in data_Exfinal %}
+                    <option value="{{row.0}}" selected>{{row.2}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="input-box">
+            <label>Choix 1</label>
+            <input type="text" name="Choix1" value="{{datas.2}}" placeholder="Entrer votre 1er choix" required />
+          </div>
+          <div class="column">
+            <div class="input-box">
+              <label>Choix 2</label>
+              <input type="text" name="Choix2" value="{{datas.3}}" placeholder="Entrer votre 2eme choix" required />
+            </div>
+          </div>
+          <div class="column">
+            <div class="input-box">
+              <label>Choix 3</label>
+              <input type="text" name="Choix3" value="{{datas.4}}" placeholder="Entrer votre 3eme choix" required />
+            </div>
+          </div>
+          <div class="column">
+            <div class="input-box">
+              <label>Choix 4</label>
+              <input type="text" name="Choix4" value="{{datas.5}}" placeholder="Entrer votre 4eme choix" required />
+            </div>
+          </div>
+          <div class="btn">
+            <button class="red"><a href="{{url_for('question_examen')}}">Annuler</a></button>
+            <button type="submit" value="Soumettre" >Modifier</button>
+          </div>
+        </form>
+      </section>
+</body>
+</html>

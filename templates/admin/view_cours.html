@@ -95,77 +95,88 @@
     <!-- Ajoutez d'autres cours selon vos besoins -->
 </div>
 
-<div class="navigation-buttons">
-    <button id="prevButton" onclick="goToPreviousPage()">Précédent</button>
-    <button id="nextButton" onclick="goToNextPage()">Suivant</button>
-</div>
+ <div class="navigation-buttons">
+            <button id="prevButton" onclick="goToPreviousPage()">Précédent</button>
+            <button id="nextButton" onclick="goToNextPage()">Suivant</button>
+            <button id="completeButton" onclick="completeProgression()">Terminé</button>
+        </div>      
 </section>
+<!-- ... Votre HTML existant ... -->
+
 <script>
-    
-    let currentPage = 1;
-    const totalPages = document.querySelectorAll('.content-page').length;
+    document.addEventListener('DOMContentLoaded', function () {
+        let currentPage = 1;
+        const totalPages = document.querySelectorAll('.content-page').length;
 
-    function showPage(pageNumber) {
-        document.querySelectorAll('.content-page').forEach(function (page) {
-            page.classList.remove('active');
-        });
-
-        document.getElementById('page' + pageNumber).classList.add('active');
-    }
-
-    function updateButtons() {
-        document.getElementById('prevButton').disabled = currentPage === 1;
-        document.getElementById('nextButton').disabled = currentPage === totalPages;
-    }
-
-    function goToPreviousPage() {
-        if (currentPage > 1) {
-            currentPage--;
-            showPage(currentPage);
-            updateButtons();
-        }
-    }
-
-    function goToNextPage() {
-        if (currentPage < totalPages) {
-            currentPage++;
-            showPage(currentPage);
-            updateButtons();
-          // Obtenez l'ID du cours à partir de l'élément actuel
-        const currentCourseId = document.getElementById('page' + currentPage).dataset.courseId;
-        // Ajoutez cette condition pour vérifier si l'ID n'est pas vide
-        if (currentCourseId.trim() !== '') {
-            updateProgression(currentCourseId);
-        } else {
-            console.error('L\'ID du cours est vide.');
-        }
-        }
-    }
-
-    showPage(currentPage);
-    updateButtons();
-    function updateProgression(courseId) {
-        // Utilisez XMLHttpRequest ou fetch pour envoyer une requête au serveur Flask
-        // Vous devrez définir une route Flask pour gérer cette mise à jour
-        fetch('/update_progression', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ currentCourseId: courseId }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                // Traitez la réponse si nécessaire
-                console.log(data);
-            })
-            .catch((error) => {
-                console.error('Erreur lors de la mise à jour de la progression:', error);
+        function showPage(pageNumber) {
+            document.querySelectorAll('.content-page').forEach(function (page) {
+                page.classList.remove('active');
             });
-    }
-    
 
+            document.getElementById('page' + pageNumber).classList.add('active');
+            updateProgression();  // Appeler la fonction à chaque changement de page
+        }
+
+        function updateButtons() {
+            document.getElementById('prevButton').disabled = currentPage === 1;
+            document.getElementById('nextButton').disabled = currentPage === totalPages;
+            document.getElementById('completeButton').disabled = currentPage !== totalPages;
+        }
+
+        function goToPreviousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentPage);
+                updateButtons();
+            }
+        }
+
+        function goToNextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentPage);
+                updateButtons();
+            }
+        }
+
+        function completeProgression() {
+            // Ajoutez ici le code pour marquer la progression comme terminée
+            console.log('Progression terminée');
+        }
+
+        // Fonction pour mettre à jour la progression sur le serveur Flask
+        function updateProgression() {
+            const currentCourseId = document.getElementById('page' + currentPage).dataset.courseId;
+
+            fetch('/update_progression', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ currentCourseId: currentCourseId }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // Traitez la réponse si nécessaire
+                    console.log(data);
+                })
+                .catch((error) => {
+                    console.error('Erreur lors de la mise à jour de la progression:', error);
+                });
+        }
+
+        showPage(currentPage);
+        updateButtons();
+
+        document.getElementById('prevButton').addEventListener('click', goToPreviousPage);
+        document.getElementById('nextButton').addEventListener('click', goToNextPage);
+        document.getElementById('completeButton').addEventListener('click', completeProgression);
+    });
 </script>
+
+<!-- ... Votre HTML existant ... -->
+
+
 {% endblock %}
 
 <!-- </body>
