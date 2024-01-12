@@ -110,7 +110,7 @@ tbody tr, td, th
 
                 <div class="main_centre1">
 
-                    <div class=""><button class="btn"><a href="">Ajouter</a></button></div>
+                    <div class=""><button class="btn"><a href="{{url_for('form_autoecole')}}">Ajouter</a></button></div>
                    <h3>Auto ecole</h3>
                     <table class="tableau">
 
@@ -127,7 +127,7 @@ tbody tr, td, th
                         </thead>
 
                         <tbody>
-                               <tr>
+                               <!-- <tr>
 
                                 <td> 1</td>
                                 <td>Nom</td>
@@ -138,16 +138,18 @@ tbody tr, td, th
                                 </td>
                         
 
-                               </tr>
-                               <tr>
-
-                                <td> 2</td>
-                                <td>Nom</td>
-                                <td>Lieu</td>
+                               </tr> -->
+                            <tr>
+                                {% for row in liste %}
+                                <td>{{row[0]}}</td>
+                                <td>{{row[1]}}</td>
+                                <td>{{row[2]}}</td>
                                 <td class="btn1">
-                                    <button class="modifier"><a href="">Modifier</a></button>
-                                    <button class="supprimer"><a href="">Supprimer</a></button>
+                                    <button class="modifier"><a href="/modifier_autoecole/{{row[0]}}">Modifier</a></button>
+                                    <button class="supprimer"><a href="/sup_autoecole/{{row[0]}}">Supprimer</a></button>
                                 </td>
+                                </tr>
+                                {% endfor %}
                         </tbody>
 
                     </table>
