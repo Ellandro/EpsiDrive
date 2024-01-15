@@ -14,13 +14,8 @@ from flask import Flask, request, url_for
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
-<<<<<<< Updated upstream
 import paydunya
 from paydunya import Store, invoice
-
-
-=======
->>>>>>> Stashed changes
 
 app = Flask(__name__)
 # ? Les informations pour la connexion à ma db
@@ -183,13 +178,10 @@ def login():
                     flash("Mot de passe ou email incorrect")
                 else:
                     session['logged_in'] = True
-<<<<<<< Updated upstream
                     if(user[10]=="user"):
                         session['user']=user
-=======
                     if (user[9] == "user"):
                         session['user'] = user
->>>>>>> Stashed changes
                         return redirect(url_for("user"))
                     else:
                         session["admin"] = user
@@ -515,7 +507,6 @@ def defeat():
 def category():
     return render_template("./category.html")
 
-<<<<<<< Updated upstream
 @app.route("/mode_paiement/", methods=["GET","POST"])
 def mode_paiement():
 
@@ -543,10 +534,7 @@ def update_progression():
     return jsonify({'status': 'success'})
 
 
-
-=======
 ######################     GESTION DE LA LISTE DES TESTS AJOUTES   #######################################
->>>>>>> Stashed changes
 @app.route("/view_test/")
 def view_test():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -554,16 +542,12 @@ def view_test():
                                  password=app.config['MYSQL_PASSWORD'],
                                  database=app.config['MYSQL_DB'])
     cursor = connection.cursor()
-<<<<<<< Updated upstream
     cursor.execute("SELECT * FROM  testsmodule")
     test = cursor.fetchall()
     return render_template('./admin/view_test.html',test = test)
-=======
     cursor.execute("SELECT * FROM testsmodule")
     test = cursor.fetchall()
     return render_template('./admin/view_test.html', test=test)
-
->>>>>>> Stashed changes
 
 @app.route("/view_module/")
 def view_module():
@@ -629,8 +613,6 @@ def edit_module(IdModule):
                                  password=app.config['MYSQL_PASSWORD'],
                                  database=app.config['MYSQL_DB'])
     cursor = connection.cursor()
-
-<<<<<<< Updated upstream
     if request.method == 'POST':
         NomModule = request.form.get('NomModule')
         categorie = request.form.getlist("Categorie[]")
@@ -674,11 +656,9 @@ def delete_module(id_module):
         return redirect(url_for("view_module"))
 
     return render_template("./admin/delete_module.html",data=module)
-@app.route("/add_cours/",methods=["POST", "GET"])
-=======
+
 
 @app.route("/add_cours/", methods=["POST", "GET"])
->>>>>>> Stashed changes
 def add_cours():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
                                  user=app.config['MYSQL_USER'],
@@ -702,7 +682,7 @@ def add_cours():
             print(cursor)
 
     return render_template('./admin/add_cours.html', module=module)
-<<<<<<< Updated upstream
+
 @app.route("/view_cours/<int:module_id>")
 def view_cours(module_id):
     if ((not session.get("user"))):
@@ -741,14 +721,12 @@ def view_cours(module_id):
         return render_template("./admin/view_cours.html", courses = cours, nbr=nbre, data=data)
 
 
+
+
+
 @app.route("/admin_cours/")
 def admin_cours():
-=======
 
-
-@app.route("/view_cours/")
-def view_cours():
->>>>>>> Stashed changes
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
                                  user=app.config['MYSQL_USER'],
                                  password=app.config['MYSQL_PASSWORD'],
@@ -756,7 +734,7 @@ def view_cours():
     cursor = connection.cursor()
     cursor.execute("Select * from cours")
     cours = cursor.fetchall()
-<<<<<<< Updated upstream
+
     return render_template("./admin/admin_cours.html", courses = cours)
 @app.route("/modifier_add_cours/<string:id_cours>",methods=["POST", "GET"])
 def modifier_add_cours(id_cours):
@@ -793,12 +771,10 @@ def suprimer_add_cours(id_cours):
     connection.commit()
 
     connection.close()
-=======
-    return render_template("./admin/view_cours.html", courses=cours)
-
->>>>>>> Stashed changes
 
     return redirect(url_for("admin_cours"))
+
+
 @app.route("/add_test/", methods=["post", "GET"])
 def add_test():
     conn = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -829,30 +805,29 @@ def add_test():
         conn.close()
         flash("Votre demande a été envoyé!", 'succes')
     return render_template('./admin/add_test.html', data_test=data_module)
-@app.route("/modifier_test/<int:test_id>", methods=["GET", "POST"])
-def modifier_test(test_id):
-    conn = pymysql.connect(
-        host=app.config['MYSQL_HOST'],
-        user=app.config['MYSQL_USER'],
-        password=app.config['MYSQL_PASSWORD'],
-        database=app.config['MYSQL_DB']
-    )
-    cur = conn.cursor()
+# @app.route("/modifier_test/<int:test_id>", methods=["GET", "POST"])
+# def modifier_test(test_id):
+#     conn = pymysql.connect(
+#         host=app.config['MYSQL_HOST'],
+#         user=app.config['MYSQL_USER'],
+#         password=app.config['MYSQL_PASSWORD'],
+#         database=app.config['MYSQL_DB']
+#     )
+#     cur = conn.cursor()
 
-    # Récupérer les données du test existant et de son module concerné
-    cur.execute("SELECT * FROM testsmodule WHERE IDTest=%s", (test_id,))
-    test_data = cur.fetchone()
+#     # Récupérer les données du test existant et de son module concerné
+#     cur.execute("SELECT * FROM testsmodule WHERE IDTest=%s", (test_id,))
+#     test_data = cur.fetchone()
 
-    # Récupérer les modules pour l'affichage dans le formulaire
-    cur.execute("SELECT * FROM modulesenseignes")
-    data_module = cur.fetchall()
+#     # Récupérer les modules pour l'affichage dans le formulaire
+#     cur.execute("SELECT * FROM modulesenseignes")
+#     data_module = cur.fetchall()
 
-    if request.method == 'POST':
-        nom_test = request.form['nom_test']
-        id_module = request.form['module']
+#     if request.method == 'POST':
+#         nom_test = request.form['nom_test']
+#         id_module = request.form['module']
 
-<<<<<<< Updated upstream
-=======
+
 ################ GESTION et AFFICHAGE DE LA MODIFICATION D'UN TEST##########################
 @app.route("/modifier_test/<int:test_id>", methods=["GET", "POST"])
 def modifier_test(test_id):
@@ -876,7 +851,7 @@ def modifier_test(test_id):
         nom_test = request.form['nom_test']
         id_module = request.form['module']
 
->>>>>>> Stashed changes
+
         # Traitement de l'image
         image = request.files['image']
         if image:
@@ -928,29 +903,28 @@ def supprimer_test(test_id):
 
     conn.close()
     return render_template('./admin/supprimer_test.html', data=test_data)
-<<<<<<< Updated upstream
+
 @app.route("/add_auto/")
 def add_auto():
     return render_template("admin/form_autoecole.html")
 @app.route("/view_auto/")
 def view_auto():
     return render_template("admin/autoecole.html")
-=======
 
 
 ###############"" GESTION DU MODE DE PAIEMENT ############################################
-@app.route("/mode_paiement/")
-def mode_paiement():
-    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
-                                 user=app.config['MYSQL_USER'],
-                                 password=app.config['MYSQL_PASSWORD'],
-                                 database=app.config['MYSQL_DB'])
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM testsmodule")
-    test = cursor.fetchall()
-    # return render_template('./admin/view_test.html', test=test)
-    modes_paiement = ["Mobile Money", "Carte Bancaire"]
-    return render_template('./users/mode_paiement.html', modes_paiement=modes_paiement)
+# @app.route("/mode_paiement/")
+# def mode_paiement():
+#     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+#                                  user=app.config['MYSQL_USER'],
+#                                  password=app.config['MYSQL_PASSWORD'],
+#                                  database=app.config['MYSQL_DB'])
+#     cursor = connection.cursor()
+#     cursor.execute("SELECT * FROM testsmodule")
+#     test = cursor.fetchall()
+#     # return render_template('./admin/view_test.html', test=test)
+#     modes_paiement = ["Mobile Money", "Carte Bancaire"]
+#     return render_template('./users/mode_paiement.html', modes_paiement=modes_paiement)
 
 
 @app.route("/process_paiement", methods=['POST'])
@@ -967,7 +941,6 @@ def confirmation(numero_paiement):
 
 
 
->>>>>>> Stashed changes
 @app.route("/user_sidbar/")
 def user_sidbar():
     conn = pymysql.connect(
@@ -982,6 +955,7 @@ def user_sidbar():
     cur.execute("SELECT * FROM modules ")
     data = cur.fetchall()
     return render_template("./users/user_sidbar.html", data = data)
+
 
 
 if __name__ == "__main__":
