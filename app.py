@@ -93,12 +93,43 @@ def user():
     print(percent)
     return render_template('./users/interface_users.html', module=modle, percent=percent)
 
+<<<<<<< HEAD
 
 @app.route('/test/')
 def test():
     return render_template('./users/test/test.html')
 
 
+=======
+@app.route('/test/', methods=["GET","POST"])
+def test():
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM questionstest")
+    query = cursor.fetchall()
+    if(request.method=="POST"):
+        id=request.form["id"]
+        reponse = request.form.getlist("one")
+        if(len(reponse)==0):
+            print("Veuillez choisir une reponse")
+        else:
+            cursor.execute("SELECT * FROM reponsestest where IDquestion=%s AND ReponseCorrect=%s", (id, reponse))
+            answer = cursor.fetchone()
+            if (answer):
+                print("Reponse correct")
+            else:
+                print("Mauvaise reponse")
+    return render_template('./users/test/test.html', query=query)
+@app.route('/valider', methods=['POST'])
+def valider():
+    # Passer à la question suivante
+    session['current_question'] = session.get('current_question', 1) + 1
+
+    return redirect(url_for('index'))
+>>>>>>> main
 @app.route('/register/', methods=["POST", "GET"])
 def register():
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -367,6 +398,103 @@ def liste_question(test_id):
     conn.commit()
     conn.close()
     return render_template('liste_question.html', data_question=data)
+
+@app.route('/autoecole/')
+def autoecole():
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+    cursor = conn.cursor()
+    cursor.execute('SELECT * from autoecoles')
+    autoecole = cursor.fetchall()
+    return render_template('./admin/autoecole.html', liste = autoecole)
+
+@app.route("/form_autoecole/", methods=['GET', 'POST'])
+def form_autoecole():
+    if request.method == "POST":
+        Nom = request.form['nom']
+        Lieu = request.form['lieu']
+
+        conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO autoecoles(NomAutoEcole, Lieu) VALUES (%s, %s)",(Nom, Lieu)) # Utilisation de %s pour les paramètres
+        conn.commit()
+        conn.close()
+        return redirect(url_for('autoecole'))
+    return render_template("./admin/form_autoecole.html")
+
+@app.route('/modifier_autoecole/<int:mod_id>', methods=['GET', 'POST'])
+def modifier_autoecole(mod_id):
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+    cur = conn.cursor()
+
+    if request.method == 'POST':
+        Nom = request.form['nom']
+        Lieu = request.form['lieu']
+
+        cur.execute('''
+                UPDATE autoecoles SET NomAutoEcole=%s, Lieu=%s 
+                WHERE IDAutoEcole = %s''', (Nom, Lieu, mod_id))
+                    
+        conn.commit()
+        conn.close()
+        flash("Vos informations ont été modifiées !", 'success')
+        return redirect(url_for('autoecole'))
+
+    mod_id = int(mod_id)
+    cur.execute("SELECT * FROM autoecoles WHERE IDAutoEcole = %s", (mod_id,))
+    data = cur.fetchone()
+
+    conn.close()
+    return render_template("./admin/modifier_autoecole.html", data=data)
+
+@app.route("/sup_autoecole/<int:sup_id>", methods=["GET", "POST"])
+def sup_autoecole(sup_id):
+    conn = pymysql.connect(
+        host=app.config['MYSQL_HOST'],
+        user=app.config['MYSQL_USER'],
+        password=app.config['MYSQL_PASSWORD'],
+        database=app.config['MYSQL_DB']
+    )
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM autoecoles WHERE IdAutoEcole='%s'",(sup_id,))
+    data = cur.fetchone()
+    
+    return render_template("./admin/suprimer_autoecole.html", data = data)
+
+@app.route("/supprimer_autoecole/<int:sup_id>", methods=["GET", "POST"])
+def supprimer_autoecole(sup_id):
+    conn = pymysql.connect(
+        host=app.config['MYSQL_HOST'],
+        user=app.config['MYSQL_USER'],
+        password=app.config['MYSQL_PASSWORD'],
+        database=app.config['MYSQL_DB']
+    )
+    cur = conn.cursor()
+
+    # Récupérer les données du test existant
+    cur.execute("SELECT * FROM autoecoles WHERE IdAutoEcole=%s", (sup_id,))
+    auto_data = cur.fetchone()
+
+    if request.method == 'POST':
+        # Supprimer le test de la base de données
+        cur.execute("DELETE FROM autoecoles WHERE IdAutoEcole=%s", (sup_id,))
+
+        conn.commit()
+        conn.close()
+        flash("Le test a été supprimé avec succès!", 'success')
+        return redirect(url_for('autoecole'))
+
+    conn.close()
+    return render_template('./admin/supprimer_autoecole.html', data=auto_data)
+
 
 
 @app.route('/detail_question/<int:idtest>', methods=['GET', 'POST'])
@@ -671,7 +799,7 @@ def add_cours():
         if (request.form["titre"] == "" or request.form["module"] == "" or request.form["contenu"] == ""):
             flash("Les ne doivent pas etre vide")
         else:
-            titre = request.form["titre"]
+            titre   = request.form["titre"]
             modules = request.form["module"]
             contenu = request.form["contenu"]
             print([titre, modules, contenu])
@@ -683,6 +811,54 @@ def add_cours():
 
     return render_template('./admin/add_cours.html', module=module)
 
+<<<<<<< HEAD
+=======
+
+# @app.route("/modifier_add_cours/<string:id_cours>",methods=["POST", "GET"])
+# def modifier_add_cours(id_cours):
+#     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+#                                  user=app.config['MYSQL_USER'],
+#                                  password=app.config['MYSQL_PASSWORD'],
+#                                  database=app.config['MYSQL_DB'])
+#     cursor = connection.cursor()
+#     cursor.execute("select * from cours WHERE IDCours = %s",(id_cours,))
+#     data = cursor.fetchone()
+#     cursor.execute("select* from modulesenseignes")
+#     cour_modules = cursor.fetchall()
+#     if request.method == "POST":
+#             titre   = request.form["titre"]
+#             modules = request.form["module"]
+#             contenu = request.form["contenu"]
+#             print([titre, modules,contenu])
+#             cursor.execute('''
+#                     UPDATE cours
+#                     SET IDCours=%s, IDModule=%s,TitreCours=%s,Contenu=%s
+#                     WHERE IDCours = %s''',(id_cours,modules,titre,contenu,id_cours))
+#             cursor.connection.commit() 
+#             return redirect(url_for('admin_cours'))
+#     return render_template('./admin/modifier_add_cours.html',data=data, cour_modules=cour_modules)
+
+# @app.route("/suprimer_add_cours/<string:id_cours>",methods=["POST", "GET"])
+# def suprimer_add_cours(id_cours):
+#     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+#                                  user=app.config['MYSQL_USER'],
+#                                  password=app.config['MYSQL_PASSWORD'],
+#                                  database=app.config['MYSQL_DB'])
+#     cursor = connection.cursor()
+
+#     cursor.execute("DELETE FROM cours WHERE IDCours = %s", (id_cours,))
+#     connection.commit()
+
+#     connection.close()
+
+#     return redirect(url_for("admin_cours"))
+    
+
+
+# @app.route("/view_cours/")
+# def view_cours():
+
+>>>>>>> main
 @app.route("/view_cours/<int:module_id>")
 def view_cours(module_id):
     if ((not session.get("user"))):
@@ -721,6 +897,7 @@ def view_cours(module_id):
         return render_template("./admin/view_cours.html", courses = cours, nbr=nbre, data=data)
 
 
+<<<<<<< HEAD
 
 
 
@@ -736,6 +913,18 @@ def admin_cours():
     cours = cursor.fetchall()
 
     return render_template("./admin/admin_cours.html", courses = cours)
+=======
+# @app.route("/admin_cours/")
+# def admin_cours():
+#     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+#                                  user=app.config['MYSQL_USER'],
+#                                  password=app.config['MYSQL_PASSWORD'],
+#                                  database=app.config['MYSQL_DB'])
+#     cursor = connection.cursor()
+#     cursor.execute("Select * from cours")
+#     cours = cursor.fetchall()
+#     return render_template("./admin/admin_cours.html", courses = cours)
+>>>>>>> main
 @app.route("/modifier_add_cours/<string:id_cours>",methods=["POST", "GET"])
 def modifier_add_cours(id_cours):
     connection = pymysql.connect(host=app.config['MYSQL_HOST'],
@@ -766,6 +955,18 @@ def suprimer_add_cours(id_cours):
                                  password=app.config['MYSQL_PASSWORD'],
                                  database=app.config['MYSQL_DB'])
     cursor = connection.cursor()
+
+@app.route("/admin_cours/")
+def admin_cours():
+    connection = pymysql.connect(host=app.config['MYSQL_HOST'],
+                                 user=app.config['MYSQL_USER'],
+                                 password=app.config['MYSQL_PASSWORD'],
+                                 database=app.config['MYSQL_DB'])
+    cursor = connection.cursor()
+    cursor.execute("Select * from cours")
+    cours = cursor.fetchall()
+    return render_template("./admin/admin_cours.html", courses = cours)
+
 
     cursor.execute("DELETE FROM cours WHERE IDCours = %s", (id_cours,))
     connection.commit()
@@ -904,6 +1105,117 @@ def supprimer_test(test_id):
     conn.close()
     return render_template('./admin/supprimer_test.html', data=test_data)
 
+<<<<<<< HEAD
+=======
+# QUESTION_EXAMEN
+
+@app.route('/question_examen', methods=['GET', 'POST'])
+def question_examen():
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT questionsexams.IDQuestionExam , examenfinal.NomExamen, questionsexams.choix1, questionsexams.choix2, questionsexams.choix3, questionsexams.choix4  FROM questionsexams , examenfinal WHERE questionsexams.IDExamen = examenfinal.IDExamen "
+    )
+    data = cur.fetchall()
+
+    conn.commit()
+    conn.close()
+    return render_template('./admin/question_examen.html', data_Qexamen=data)
+
+
+
+@app.route('/k', methods=['GET', 'POST'])
+def ajout_question_examens():
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM examenfinal")
+    data1 = cur.fetchall()
+
+    if request.method == 'POST':
+        Examen = request.form['Examen']
+        Choix1 = request.form['Choix1']
+        Choix2 = request.form["Choix2"]
+        Choix3 = request.form["Choix3"]
+        Choix4 = request.form["Choix4"]
+
+        cur.execute('''
+                    INSERT INTO questionsexams (IDExamen, choix1, choix2, choix3, choix4)
+                    VALUES ( %s, %s, %s, %s, %s)
+                 ''', (Examen, Choix1, Choix2, Choix3, Choix4))
+
+        conn.commit()
+        conn.close()
+        flash("Votre question a été enregistré!", 'succes')
+        return redirect(url_for('question_examen'))
+
+    return render_template('./admin/ajout_question_examens.html', data_Exfinal=data1)
+
+
+@app.route('/sup_question_examens/<int:sup_id>', methods=['GET'])
+def sup_question_examens(sup_id):
+    sup_id = int(sup_id)
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+
+    cur = conn.cursor()
+    cur.execute('''
+                        DELETE FROM questionsexams WHERE IDQuestionExam =%s''',
+                (sup_id,))
+    conn.commit()
+    conn.close()
+    flash("Votre Question a été supprimer!", 'warning')
+    return redirect(url_for('question_examen'))
+
+
+@app.route('/modif_question_examens/<int:mod_id>', methods=['GET', 'POST'])
+def modif_question_examens(mod_id):
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM examenfinal")
+    data1 = cur.fetchall()
+
+    if request.method == 'POST':
+        Examen = request.form['Examen']
+        Choix1 = request.form['Choix1']
+        Choix2 = request.form["Choix2"]
+        Choix3 = request.form["Choix3"]
+        Choix4 = request.form["Choix4"]
+
+        cur.execute('''
+                UPDATE questionsexams SET IDExamen=%s, Choix1=%s, Choix1=%s, Choix1=%s, Choix1=%s
+                WHERE IDQuestionExam =%s''',
+                    (Examen, Choix1, Choix2, Choix3, Choix4, mod_id))
+        conn.commit()
+        conn.close()
+        flash("Votre question a été Modifié!", 'succes')
+        return redirect(url_for('question_examen'))
+    conn = pymysql.connect(host=app.config['MYSQL_HOST'],
+                           user=app.config['MYSQL_USER'],
+                           password=app.config['MYSQL_PASSWORD'],
+                           database=app.config['MYSQL_DB'])
+
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT *  from questionsexams WHERE IDQuestionExam = %s ",
+        (mod_id,))
+    data = cur.fetchone()
+    return render_template("admin/modif_question_examens.html", datas=data, data_Exfinal=data1)
+
+>>>>>>> main
 @app.route("/add_auto/")
 def add_auto():
     return render_template("admin/form_autoecole.html")

@@ -71,13 +71,10 @@
     margin-right: 15px;
 
 }
-.btn1
+.btn1 
 {
     text-decoration: none;
     color: white;
-}
-.btn1
-{
     background-color: red;
 }
 #btn2{
@@ -99,14 +96,17 @@
                 <div class="main_centre1">
 
                     <h3> Ajout Auto Ecole</h3>
-            <form action="">
+            <form method="post">
+
                 <label for="Nom">Nom Auto Ecole :</label>
-                <input id="nom" type="text">
+                <input id="Nom" name="nom" type="text">
+
                 <label for="Lieu" >Lieu Auto Ecole :</label>
-                <input id="Lieu" type="text">
+                <input id="Lieu" type="text" name="lieu">
+
                 <div class="Centre1-1">
-                    <button class="btn1"><a href="">Retour</a></button>
-                   <button id="btn2" type="submit" ><a href="">Valider</a></button>
+                    <button class="btn1"><a href="{{url_for('autoecole')}}">Retour</a></button>
+                   <button id="btn2" type="submit">Valider</button>
                 </div>
             </form>
 

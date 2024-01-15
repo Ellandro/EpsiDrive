@@ -10,27 +10,70 @@
         </div>
         <i class="fa-solid fa-bars" style="color: #08d48e;"></i>
     </div>
-<form class="test">
-
+<form class="test" method="post" action="{{url_for('test')}}">
+    {% for element in query %}
+    <div class="ask question{{loop.index}}">
+    <input type="hidden" value="{{element.0}}" name="id">
     <div class="query">
-        <h3>Un enfant peut être masqué par des véhicules en stationnement :</h3>
+        <h3>{{ element.3 }}</h3>
        <div>
-            <input type="radio" name="one" id="one">
-            <label for="one">OUI</label><br>
+            <input type="radio" name="one" id="one" value="{{element.4}}">
+            <label for="one">{{element.4}}</label><br>
        </div>
         <div>
-            <input type="radio" name="one" id="two">
-        <label for="two">NON</label>
+            <input type="radio" name="one" id="two" value="{{element.5}}">
+        <label for="two">{{element.5}}</label>
+        </div><div>
+            <input type="radio" name="one" id="three" value="{{element.6}}">
+        <label for="two">{{element.6}}</label>
+        </div><div>
+            <input type="radio" name="one" id="four" value="{{element.7}}">
+        <label for="two">{{element.7}}</label>
         </div>
     </div>
-    <div class="image_query">
-        <img src="{{ url_for('static', filename='./Images/risque.jpg')}}" alt="photo" srcset="">
-    </div>
-    <div class="btn">
-        <button class="danger"><a href="">Annuler</a></button>
-        <button type="submit" class="sucess">Valider</button>
-    </div>
+        <div class="image_query">
+            <img src="{{ url_for('static', filename='./question_photo/'+ element.8)}}" alt="{{element.8}}" srcset="">
+        </div>
+    {% endfor %}
+         </div>
+     <div class="btn">
+            <button class="danger"><a href="">Annuler</a></button>
+            <button type="submit" class="sucess" id="suivantBtn">Valider</button>
+        </div>
+
 </form>
 </section>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let currentQuestionIndex = 0;
+        const questions = document.querySelectorAll('.ask');
+
+        function showQuestion(index) {
+            questions.forEach(function (question, i) {
+                if (i === index) {
+                    question.style.display = 'block';
+                } else {
+                    question.style.display = 'none';
+                }
+            });
+        }
+
+        function goToNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showQuestion(currentQuestionIndex);
+            } else {
+                console.log('Toutes les questions ont été affichées.');
+            }
+        }
+
+        document.getElementById('suivantBtn').addEventListener('click', goToNextQuestion);
+
+        showQuestion(currentQuestionIndex);
+    });
+</script>
+
 
 {% endblock content %}

@@ -1,0 +1,72 @@
+{% extends "./admin/main.html" %}
+{% block content %}
+
+<section class="container home">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert-{{category}}" id="mes">{{message}}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="suppression_contener">
+        <div class="suppression_partie">
+            <h2>Êtes-vous sûr de vouloir supprimer l'information ?</h2>
+            <form action="{{ url_for('supprimer_autoecole', sup_id=data[0]) }}" method="post">
+                <button type="submit"><h2>Confirmer la suppression</h2></button>
+            </form>
+            <div class="btn">
+                <button class="red"><a href="{{ url_for('autoecole') }}">Annuler</a></button>
+            </div>
+        </div>
+    </div>
+    <style>
+        .suppression_contener{
+            display: flex;
+            height: 100%;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+        .suppression_partie{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            width: 70%;
+            height: 50%;
+            background-color: white;
+            border-radius: 15px;
+        }   
+        .suppression_partie form{
+            width: 70%;
+            height: 20%;
+        }
+         .suppression_partie form button{
+            height: 80%;
+            width: 100%;
+            background-color: #08d48e;
+         }
+         .btn{
+            width: 50%;
+            height: 20%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+         }
+         .btn .red{
+            background-color: red;
+            height: 55%;
+            width: 25%;
+            border-radius: 15px;
+         }
+
+         .btn .red a{
+            font-size: 15px;
+            color: white;
+            text-decoration: none;
+         }
+    </style>
+</section>
+{% endblock %}
